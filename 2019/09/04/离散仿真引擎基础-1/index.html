@@ -58,12 +58,85 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        <h2 id="1-解释对象与资源的区别与联系"><a href="#1-解释对象与资源的区别与联系" class="headerlink" title="1. 解释对象与资源的区别与联系"></a>1. 解释对象与资源的区别与联系</h2><ul>
+        <h1 id="一-简答题"><a href="#一-简答题" class="headerlink" title="一.简答题"></a>一.简答题</h1><h2 id="1-解释对象与资源的区别与联系"><a href="#1-解释对象与资源的区别与联系" class="headerlink" title="1. 解释对象与资源的区别与联系"></a>1. 解释对象与资源的区别与联系</h2><ul>
 <li>对象：对象直接出现在游戏场景中，例如游戏的角色，道具和环境，对象一般有玩家，场景等虚拟父类，这些父类没有实例化，而他们的子类实例化并包含了这些游戏对象，它们本身并没有完成多少工作，但是它们充当组件的容器，添加不同的组件组合到游戏对象中。组件实现真正的功能。我们可以对这些对象进行操作。</li>
 <li>资源：资源可以是我们自定义或下载下来的素材，作为一个模板被导入使用，可以被多个对象所使用或者被实例化为对象。如材质，模型，动画，音频等。还有一些资源类型可以在Unity中创建，比如动画控制器、音频混频器或渲染纹理。</li>
 <li>游戏对象可以理解为多个资源合并起来的表现，而资源被对象使用也可以实例化，可以理解为可扩展的模板包。<h2 id="2-下载几个游戏案例，分别总结资源、对象组织的结构（指资源的目录组织结构与游戏对象树的层次结构）"><a href="#2-下载几个游戏案例，分别总结资源、对象组织的结构（指资源的目录组织结构与游戏对象树的层次结构）" class="headerlink" title="2. 下载几个游戏案例，分别总结资源、对象组织的结构（指资源的目录组织结构与游戏对象树的层次结构）"></a>2. 下载几个游戏案例，分别总结资源、对象组织的结构（指资源的目录组织结构与游戏对象树的层次结构）</h2></li>
-<li>游戏对象树类类似于多个父子继承关系，一个游戏对象往往包括几个子对象<br><img src="https://www.z4a.net/image/20190904192416.UfXUHp" alt></li>
-<li>资源的目录组织结构基本包括Audio，Prefabs，texture，Scripts，Sounds等<br><img src="https://www.z4a.net/image/20190904192431.UfXypK" alt></li>
+<li>在<a href="https://unity3d.com/cn/learn/tutorials" target="_blank" rel="noopener">官方案例</a>中选择了两个:”Space Shooter tutorial LEGACY” 和 “Unity Playground”</li>
+<li>游戏对象树类类似于多个父子继承关系，一个游戏对象往往包括几个子对象<br><img src="http://pxcpbo9xv.bkt.clouddn.com/obj.png" alt></li>
+<li>资源的目录组织结构基本包括Audio，Prefabs，texture，Scripts，Sounds等<br><img src="http://pxcpbo9xv.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20190904192431.png" alt></li>
+</ul>
+<h2 id="3-编写一个代码，使用-debug-语句来验证-MonoBehaviour-基本行为或事件触发的条件"><a href="#3-编写一个代码，使用-debug-语句来验证-MonoBehaviour-基本行为或事件触发的条件" class="headerlink" title="3. 编写一个代码，使用 debug 语句来验证 MonoBehaviour 基本行为或事件触发的条件"></a>3. 编写一个代码，使用 debug 语句来验证 MonoBehaviour 基本行为或事件触发的条件</h2><ul>
+<li><p>基本行为包括 Awake() Start() Update() FixedUpdate() LateUpdate()</p>
+</li>
+<li><p>常用事件包括OnGUI() OnDisable() OnEnable()</p>
+</li>
+<li><p>可参见官方对于<a href="https://docs.unity3d.com/Manual/ExecutionOrder.html" target="_blank" rel="noopener">脚本生命周期的说明</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class NewBehaviourScript : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    // 当前控制脚本实例被装载的时候调用。一般用于初始化整个实例使用</span><br><span class="line">    void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.Log(&quot;onAwake&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    // Start is called before the first frame update.当前脚本执行update之前执行</span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.Log(&quot;Start&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Update is called once per frame. 每一帧都执行</span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.Log(&quot;Update&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    ////每固定帧绘制时执行一次，和Update不同的是FixedUpdate是渲染帧执行，如果你的渲染效率底下的时候FixedUpdate的调用次数就会下降。FixedUpdate比较适用于物理引擎的计算，因为是跟每帧渲染有关，而Update比较适合做控制。（放置游戏基本物理行为的代码，在Update之后执行）</span><br><span class="line">    </span><br><span class="line">    void FixedUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.Log(&quot;FixedUpdate&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    //每帧执行完毕调用，他在所有Update结束后才调用，比较适合于命令脚本的执行。官网上例子是摄像机的跟随，都是在所有Update操作完才跟进摄像机，不然就有可能出现摄像机已经推进了，但是视角里还未有角色的空帧出现</span><br><span class="line">    void LateUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.Log(&quot;LateUpdate&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    //类似OnUpdate 每一帧均执行,在绘制GUI是执行</span><br><span class="line">    void OnGUI()</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.Log(&quot;OnGUI&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    //当对象变为不可用或非激活状态时此函数被调用。当物体销毁时它被调用，并且可用于任意清理代码。当脚本编译完成之后被重新加载时，OnDisable将被调用，OnEnable在脚本被载入后调用。（物体被禁用时调用）</span><br><span class="line">    void OnDisable()</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.Log(&quot;OnDisable&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    // 对象变为可用或激活状态时此函数被调用，OnEnable不能用于协同程序</span><br><span class="line">    void OnEnable()</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.Log(&quot;OnEnable&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="4-查找脚本手册，了解-GameObject，Transform，Component-对象"><a href="#4-查找脚本手册，了解-GameObject，Transform，Component-对象" class="headerlink" title="4. 查找脚本手册，了解 GameObject，Transform，Component 对象"></a>4. 查找脚本手册，了解 GameObject，Transform，Component 对象</h2><ul>
+<li><p>分别翻译官方对三个对象的描述（Description）</p>
+<ul>
+<li><blockquote>
+<p><strong>GameObject</strong> are the fundamental objects in Unity that represent characters, props and scenery. They do not accomplish much in themselves but they act as containers for Components, which implement the real functionality.<br>游戏对象是统一体中代表人物、道具和场景的基本对象。它们本身并没有完成多少工作，但是它们充当组件的容器，组件实现真正的功能。</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>The <strong>Transform</strong>  component determines the Position, Rotation, and Scale of each object in the scene. Every GameObject has a Transform. Transform组件决定场景中每个对象的位置、旋转和比例。每个GameObject(游戏物体)都有一个变换。</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p><strong>Components</strong> are the nuts &amp; bolts of objects and behaviors in a game. They are the functional pieces of every GameObject. 组件是游戏中对象和行为的螺母和螺栓。它们是每个游戏对象的功能部件。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>描述下图中 table 对象（实体）的属性、table 的 Transform 的属性、 table 的部件</p>
+<ul>
+<li>本题目要求是把可视化图形编程界面与 Unity API 对应起来，当你在 Inspector 面板上每一个内容，应该知道对应 API。</li>
+<li>对象属性：activeInHierarchy（表示GameObject是否在场景中处于active状态）、activeSelf（GameObject的本地活动状态）、isStatic（仅编辑器API，指定游戏对象是否为静态）、Tag、layer（游戏对象所在的图层。图层的范围为[0 … 31]）、Prefab<br><img src="http://pxcpbo9xv.bkt.clouddn.com/shuobj.png" alt></li>
+<li>Transform属性：position、rotation、scale<br><img src="http://pxcpbo9xv.bkt.clouddn.com/trans%E5%B1%9E.png" alt></li>
+<li>部件：Mesh Filter、Box Collider、Mesh Renderer<br><img src="http://pxcpbo9xv.bkt.clouddn.com/component.png" alt></li>
+</ul>
+</li>
+<li><p>用 UML 图描述 三者的关系（请使用 UMLet 14.1.1 stand-alone版本出图）<br><img src="http://pxcpbo9xv.bkt.clouddn.com/uml.png" alt></p>
+</li>
+<li><p>整理相关学习资料，编写简单代码验证以下技术的实现：</p>
+<ul>
+<li><p>查找对象</p>
+<ul>
+<li>通过名字查找：<code>public static GameObject Find(string name)</code></li>
+<li>通过标签名查找单个对象：<code>public static GameObject FindWithTag(string tag)</code></li>
+<li>通过标签名查找多个对象：<code>public static GameObject[] FindGameObjectsWithTag(string tag)</code></li>
+</ul>
+</li>
+<li><p>添加子对象：<code>public static GameObect CreatePrimitive(PrimitiveTypetype)</code></p>
+</li>
+<li><p>遍历对象树</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">foreach (Transform child in transform) &#123;</span><br><span class="line"> Debug.Log(child.gameObject.name);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>清除所有子对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">foreach (Transform child in transform) &#123;</span><br><span class="line"> Destroy(child.gameObject); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>资源预设（Prefabs）与 对象克隆 (clone)</p>
+<ul>
+<li><p>预设（Prefabs）有什么好处？</p>
+<p>预设类似于一个模板，预设发生改变后，通过预设实例化的对象都会发生相应的改变，避免了重复改变，方便了对资源的重复使用</p>
+</li>
+<li><p>预设与对象克隆 (clone or copy or Instantiate of Unity Object) 关系？</p>
+<ul>
+<li>克隆：克隆的对象是互相独立的，没有任何关联</li>
+<li>预设：预设出的实例化对象与预设对象是有关系的，修改预设对象会改变实例化对象，但修改实例化对象不会对原始的预设对象做出改变</li>
+</ul>
+</li>
+<li><p>制作 table 预制，写一段代码将 table 预制资源实例化成游戏对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GameObject prefabTable = (GameObject)Instantiate(Resources.Load(&quot;table&quot;));</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
 </ul>
 
       </div>
