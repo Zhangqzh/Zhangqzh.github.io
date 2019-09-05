@@ -3,7 +3,7 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Hello World | ZZ blog</title>
+  <title>离散仿真引擎基础(1) | ZZ blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Rica Zhang">
   <meta name="keywords" content="ZZ, ZZ Blog, �ō���Ĳ���">
@@ -48,8 +48,8 @@
   <div class="overlay">
   <div class="page-title">
     <div class="avatar"><a href="/"><img src="/images/person_1.jpg"></a></div>
-    <span>2019-09-03</span>
-    <h2>Hello World</h2>
+    <span>2019-09-04</span>
+    <h2>离散仿真引擎基础(1)</h2>
     
     </div>
 </div>
@@ -58,19 +58,13 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h2 id="1-解释对象与资源的区别与联系"><a href="#1-解释对象与资源的区别与联系" class="headerlink" title="1. 解释对象与资源的区别与联系"></a>1. 解释对象与资源的区别与联系</h2><ul>
+<li>对象：对象直接出现在游戏场景中，例如游戏的角色，道具和环境，对象一般有玩家，场景等虚拟父类，这些父类没有实例化，而他们的子类实例化并包含了这些游戏对象，它们本身并没有完成多少工作，但是它们充当组件的容器，添加不同的组件组合到游戏对象中。组件实现真正的功能。我们可以对这些对象进行操作。</li>
+<li>资源：资源可以是我们自定义或下载下来的素材，作为一个模板被导入使用，可以被多个对象所使用或者被实例化为对象。如材质，模型，动画，音频等。还有一些资源类型可以在Unity中创建，比如动画控制器、音频混频器或渲染纹理。</li>
+<li>游戏对象可以理解为多个资源合并起来的表现，而资源被对象使用也可以实例化，可以理解为可扩展的模板包。<h2 id="2-下载几个游戏案例，分别总结资源、对象组织的结构（指资源的目录组织结构与游戏对象树的层次结构）"><a href="#2-下载几个游戏案例，分别总结资源、对象组织的结构（指资源的目录组织结构与游戏对象树的层次结构）" class="headerlink" title="2. 下载几个游戏案例，分别总结资源、对象组织的结构（指资源的目录组织结构与游戏对象树的层次结构）"></a>2. 下载几个游戏案例，分别总结资源、对象组织的结构（指资源的目录组织结构与游戏对象树的层次结构）</h2></li>
+<li>游戏对象树类类似于多个父子继承关系，一个游戏对象往往包括几个子对象<br><img src="https://www.z4a.net/image/20190904192416.UfXUHp" alt></li>
+<li>资源的目录组织结构基本包括Audio，Prefabs，texture，Scripts，Sounds等<br><img src="https://www.z4a.net/image/20190904192431.UfXypK" alt></li>
+</ul>
 
       </div>
     </div>
@@ -79,12 +73,12 @@
 <div class="lx-navigation">
 	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
 		<div class="overlay"></div>
-		<a class="copy" href="/2019/09/04/离散仿真引擎基础-1/">
+		<a class="copy" href="/2019/09/05/榫卯游戏介绍/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Next</span>
-						<h3>离散仿真引擎基础(1)</h3>
+						<h3>榫卯游戏介绍</h3>
 					</div>
 				</div>
 			</div>
@@ -92,12 +86,12 @@
 	</div>
         <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
 		<div class="overlay"></div>
-		<a class="copy" href="#">
+		<a class="copy" href="/2019/09/03/不/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Prev</span>
-						<h3>没有更早的文章</h3>
+						<h3>Hello World</h3>
 					</div>
 				</div>
 			</div>
