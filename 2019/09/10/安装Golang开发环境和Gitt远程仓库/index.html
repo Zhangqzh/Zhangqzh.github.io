@@ -77,11 +77,11 @@
 </li>
 </ol>
 <ul>
-<li><p>配置环境路径后无法执行配置文件<br><img src="1" alt></p>
+<li><p>配置环境路径后无法执行配置文件<br><img src="http://pxcpbo9xv.bkt.clouddn.com/1.png" alt></p>
 <ul>
 <li>解决办法：工作空间可以放在任何地方， 但它<strong>不能和你的Go安装目录相同</strong></li>
-<li>更改执行配置文件路径即可<br><img src="2" alt></li>
-<li>使用<code>go env</code>命令，确认go配置是否正确<br><img src="3" alt></li>
+<li>更改执行配置文件路径即可<br><img src="http://pxcpbo9xv.bkt.clouddn.com/2.png" alt></li>
+<li>使用<code>go env</code>命令，确认go配置是否正确<br><img src="http://pxcpbo9xv.bkt.clouddn.com/3.png" alt></li>
 </ul>
 </li>
 <li><p>任意目录编写并测试代码</p>
@@ -89,9 +89,9 @@
 
 </li>
 </ul>
-<p><img src="4" alt></p>
+<p><img src="http://pxcpbo9xv.bkt.clouddn.com/4.png" alt></p>
 <h2 id="Git远程仓库的配置"><a href="#Git远程仓库的配置" class="headerlink" title="Git远程仓库的配置"></a>Git远程仓库的配置</h2><ol>
-<li><p>在Linux上安装Git<br>我的Centos版本里面本来就下载了git，你也可以输入<code>git</code>来查看系统是否已经存在Git<br><img src="5" alt></p>
+<li><p>在Linux上安装Git<br>我的Centos版本里面本来就下载了git，你也可以输入<code>git</code>来查看系统是否已经存在Git<br><img src="http://pxcpbo9xv.bkt.clouddn.com/5.png" alt></p>
 <ul>
 <li>如果你没有并且你是Ubuntu Linux，直接<code>sudo apt-get install git</code>就可以完成Git的安装</li>
 <li>如果你是Centos或者其他版本，最稳妥的方法就是先从Git官网下载源码，然后解压到合适的文件夹，然后执行<code>./config</code> ,<code>make</code>, <code>sudo make install</code>就好了。（我真的在无数次下载配置环境并失败中明白了还是在官网下载压缩包最靠谱o(╥﹏╥)o）</li>
@@ -102,14 +102,14 @@
 <li><p>如果你是第一次使用Git还要进行用户名和邮箱的配置</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;your name&quot;</span><br><span class="line">$ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>进入hello.go源代码所在的目录，在该目录下使用<code>git init</code>进行初始化<br><img src="6" alt></p>
+<li><p>进入hello.go源代码所在的目录，在该目录下使用<code>git init</code>进行初始化<br><img src="http://pxcpbo9xv.bkt.clouddn.com/6.png" alt></p>
 </li>
 </ul>
 </li>
 <li><p>创建Github远程仓库并建立与本地Git仓库的绑定</p>
 <ul>
-<li>new 一个 Repositories<br><img src="7" alt><br>填上仓库的名字，比如<code>Go-learning</code><br><img src="8" alt></li>
-<li>你可以选择用https协议操纵远程仓库，也可以使用git协议，我个人比较习惯使用git，这里写一下git协议需要的配置工作（不过作业要求的是用https协议）<br><img src="9" alt></li>
+<li>new 一个 Repositories<br><img src="http://pxcpbo9xv.bkt.clouddn.com/7.png" alt><br>填上仓库的名字，比如<code>Go-learning</code><br><img src="http://pxcpbo9xv.bkt.clouddn.com/8.png" alt></li>
+<li>你可以选择用https协议操纵远程仓库，也可以使用git协议，我个人比较习惯使用git，这里写一下git协议需要的配置工作（不过作业要求的是用https协议）<br><img src="http://pxcpbo9xv.bkt.clouddn.com/9.png" alt></li>
 </ul>
 </li>
 <li><p>Git协议配置：生成密钥并配对</p>
@@ -117,11 +117,11 @@
 <li><p>创建SSH Key</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure>
 
-<p><img src="10" alt></p>
+<p><img src="http://pxcpbo9xv.bkt.clouddn.com/10.png" alt></p>
 </li>
 <li><p>标红线的地方有说你的公钥被放在哪里，打开后复制下来</p>
 </li>
-<li><p>打开<code>Account Settings</code>，点击<code>SSH and GPG keys</code>,然后<code>new SSH</code>，随便取一个title，然后粘贴进刚刚复制的公钥就可以了<br><img src="11" alt><br><img src="12" alt></p>
+<li><p>打开<code>Account Settings</code>，点击<code>SSH and GPG keys</code>,然后<code>new SSH</code>，随便取一个title，然后粘贴进刚刚复制的公钥就可以了<br><img src="http://pxcpbo9xv.bkt.clouddn.com/11.png" alt><br><img src="http://pxcpbo9xv.bkt.clouddn.com/12.png" alt></p>
 </li>
 </ul>
 </li>
@@ -130,12 +130,12 @@
 <li><p>add origin</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add origin https://github.com/user-name/repo-name.git</span><br></pre></td></tr></table></figure>
 
-<p>这里的地址就在创建仓库的时候复制下来就可以了<br><img src="13" alt></p>
+<p>这里的地址就在创建仓库的时候复制下来就可以了<br><img src="http://pxcpbo9xv.bkt.clouddn.com/13.png" alt></p>
 </li>
 <li><p>查看是否成功建立连接</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br></pre></td></tr></table></figure>
 
-<p>这样就算是连接成功了<br><img src="14" alt><br>注意：在进行add origin的时候一定要打开到你<strong>建立工作空间</strong>的文件夹，可能进行一些安装工作之后不在那个文件夹了，这个时候执行add origin是会报错<code>Not a git repository</code>的</p>
+<p>这样就算是连接成功了<br><img src="http://pxcpbo9xv.bkt.clouddn.com/14.png" alt><br>注意：在进行add origin的时候一定要打开到你<strong>建立工作空间</strong>的文件夹，可能进行一些安装工作之后不在那个文件夹了，这个时候执行add origin是会报错<code>Not a git repository</code>的</p>
 </li>
 <li><p>将本地提交推送到远程仓库</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push -u origin master</span><br></pre></td></tr></table></figure>
