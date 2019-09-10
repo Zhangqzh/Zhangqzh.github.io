@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Linux下配置Golang开发环境和Git远程仓库 | ZZ blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rica Zhang">
+  <meta name="keywords" content="ZZ, ZZ Blog, �ō���Ĳ���">
+  <meta name="description" content="Whatever will be, will be.">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: '-'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/person_1.jpg"></a></div>
+    <span>2019-09-10</span>
+    <h2>Linux下配置Golang开发环境和Git远程仓库</h2>
+    
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><h2 id="安装Golang开发环境"><a href="#安装Golang开发环境" class="headerlink" title="安装Golang开发环境"></a>安装Golang开发环境</h2><p><a href="https://pmlpml.github.io/ServiceComputingOnCloud/ex-install-go?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">这里有安装步骤</a>，不再赘述，这里写一下可能遇到的一些问题</p>
+<h3 id="1-安装vscode编译器"><a href="#1-安装vscode编译器" class="headerlink" title="1. 安装vscode编译器"></a>1. 安装vscode编译器</h3><pre><code>- [官方教程：Linux下安装vscode](https://code.visualstudio.com/docs/setup/linux)
+- 但是我使用官方教程上的老是会遇到各种error，如果你也不行可以直接这样→
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc</span><br><span class="line">$ sudo sh -c &apos;echo -e &quot;[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc&quot; &gt; /etc/yum.repos.d/vscode.repo&apos;</span><br><span class="line">$ yum check-update</span><br><span class="line">$ sudo yum install code</span><br></pre></td></tr></table></figure>
+
+安装完成后命令`code`就可以看见啦</code></pre><h3 id="2-Golang安装过程中遇到的问题"><a href="#2-Golang安装过程中遇到的问题" class="headerlink" title="2. Golang安装过程中遇到的问题"></a>2. Golang安装过程中遇到的问题</h3><ul>
+<li><p>配置环境路径后无法执行配置文件<br><img src="http://pxcpbo9xv.bkt.clouddn.com/1.png" alt></p>
+<ul>
+<li>解决办法：工作空间可以放在任何地方， 但它<strong>不能和你的Go安装目录相同</strong></li>
+<li>更改执行配置文件路径即可<br><img src="http://pxcpbo9xv.bkt.clouddn.com/2.png" alt></li>
+<li>使用<code>go env</code>命令，确认go配置是否正确<br><img src="http://pxcpbo9xv.bkt.clouddn.com/3.png" alt></li>
+</ul>
+</li>
+<li><p>任意目录编写并测试代码</p>
+</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span><span class="string">"fmt"</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	fmt.Printf(<span class="string">"Hello,world.\n"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <img src="http://pxcpbo9xv.bkt.clouddn.com/4.png" alt></p>
+<h2 id="Git远程仓库的配置"><a href="#Git远程仓库的配置" class="headerlink" title="Git远程仓库的配置"></a>Git远程仓库的配置</h2><h3 id="1-在Linux上安装Git"><a href="#1-在Linux上安装Git" class="headerlink" title="1. 在Linux上安装Git"></a>1. 在Linux上安装Git</h3><p>我的Centos版本里面本来就下载了git，你也可以输入<code>git</code>来查看系统是否已经存在Git<br><img src="http://pxcpbo9xv.bkt.clouddn.com/5.png" alt></p>
+<pre><code>- 如果你没有并且你是Ubuntu Linux，直接`sudo apt-get install git`就可以完成Git的安装
+- 如果你是Centos或者其他版本，最稳妥的方法就是先从Git官网下载源码，然后解压到合适的文件夹，然后执行`./config` ,`make`, `sudo make install`就好了。（我真的在无数次下载配置环境并失败中明白了还是在官网下载压缩包最靠谱o(╥﹏╥)o）</code></pre><h3 id="2-Git的配置"><a href="#2-Git的配置" class="headerlink" title="2. Git的配置"></a>2. Git的配置</h3><pre><code>- 如果你是第一次使用Git还要进行用户名和邮箱的配置
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;your name&quot;</span><br><span class="line">$ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure>
+
+- 进入hello.go源代码所在的目录，在该目录下使用`git init`进行初始化
+![](http://pxcpbo9xv.bkt.clouddn.com/6.png)</code></pre><h3 id="3-创建Github远程仓库并建立与本地Git仓库的绑定"><a href="#3-创建Github远程仓库并建立与本地Git仓库的绑定" class="headerlink" title="3. 创建Github远程仓库并建立与本地Git仓库的绑定"></a>3. 创建Github远程仓库并建立与本地Git仓库的绑定</h3><pre><code>- new 一个 Repositories
+![](http://pxcpbo9xv.bkt.clouddn.com/7.png)
+填上仓库的名字，比如`Go-learning`
+![](http://pxcpbo9xv.bkt.clouddn.com/8.png)
+- 你可以选择用https协议操纵远程仓库，也可以使用git协议，我个人比较习惯使用git，这里写一下git协议需要的配置工作（不过作业要求的是用https协议）
+![](http://pxcpbo9xv.bkt.clouddn.com/9.png)</code></pre><h3 id="4-Git协议配置：生成密钥并配对"><a href="#4-Git协议配置：生成密钥并配对" class="headerlink" title="4. Git协议配置：生成密钥并配对"></a>4. Git协议配置：生成密钥并配对</h3><pre><code>- 创建SSH Key
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure>
+
+![](http://pxcpbo9xv.bkt.clouddn.com/10.png)
+- 标红线的地方有说你的公钥被放在哪里，打开后复制下来
+- 打开`Account Settings`，点击`SSH and GPG keys`,然后`new SSH`，随便取一个title，然后粘贴进刚刚复制的公钥就可以了
+![](http://pxcpbo9xv.bkt.clouddn.com/11.png)
+![](http://pxcpbo9xv.bkt.clouddn.com/12.png)</code></pre><h3 id="5-建立远程仓库与本地git的连接"><a href="#5-建立远程仓库与本地git的连接" class="headerlink" title="5. 建立远程仓库与本地git的连接"></a>5. 建立远程仓库与本地git的连接</h3><p>作业要求是https协议，使用https协议就不用进行步骤4了，同时使用git协议执行完步骤4就可以进行这一步<br>    - add origin<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add origin https://github.com/user-name/repo-name.git</span><br></pre></td></tr></table></figure></p>
+<pre><code>这里的地址就在创建仓库的时候复制下来就可以了
+![](http://pxcpbo9xv.bkt.clouddn.com/13.png)
+
+- 查看是否成功建立连接
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br></pre></td></tr></table></figure>
+
+这样就算是连接成功了
+![](http://pxcpbo9xv.bkt.clouddn.com/14.png)
+注意：在进行add origin的时候一定要打开到你**建立工作空间**的文件夹，可能进行一些安装工作之后不在那个文件夹了，这个时候执行add origin是会报错`Not a git repository`的
+
+- 将本地提交推送到远程仓库
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push -u origin master</span><br></pre></td></tr></table></figure></code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/09/08/离散仿真引擎基础/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>离散仿真引擎基础</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">ZZ blog</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/person_1.jpg" alt="Rica Zhang"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Rica Zhang</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
