@@ -67,8 +67,9 @@
 </li>
 </ul>
 <ul>
-<li><p>安装完成后命令<code>code</code>就可以看见啦</p>
-<h3 id="2-Golang安装过程中遇到的问题"><a href="#2-Golang安装过程中遇到的问题" class="headerlink" title="2. Golang安装过程中遇到的问题"></a>2. Golang安装过程中遇到的问题</h3></li>
+<li>安装完成后命令<code>code</code>就可以看见啦</li>
+</ul>
+<h3 id="2-Golang安装过程中遇到的问题"><a href="#2-Golang安装过程中遇到的问题" class="headerlink" title="2. Golang安装过程中遇到的问题"></a>2. Golang安装过程中遇到的问题</h3><ul>
 <li><p>配置环境路径后无法执行配置文件<br><img src="http://pxcpbo9xv.bkt.clouddn.com/1.png" alt></p>
 <ul>
 <li>解决办法：工作空间可以放在任何地方， 但它<strong>不能和你的Go安装目录相同</strong></li>
@@ -130,6 +131,40 @@
 
 </li>
 </ul>
+<h2 id="安装一些工具和插件"><a href="#安装一些工具和插件" class="headerlink" title="安装一些工具和插件"></a>安装一些工具和插件</h2><p>vscode有一些插件当你想对文件进行debug的时候他会提醒你快去install，但当你真的点了install之后……又告诉你不能install，按照课程网页上的教程也是不可行的<br><img src="http://pxcpbo9xv.bkt.clouddn.com/%EF%BC%92.png" alt></p>
+<p>下面给出两种解决办法：</p>
+<h3 id="1-无法访问无非是因为被qiang了，如果你愿意在虚机里开一个代理就可以了，我的主机是开着SSR代理的，但是可能是之前设置网卡的时候已经设置好了，虚拟机翻不了墙"><a href="#1-无法访问无非是因为被qiang了，如果你愿意在虚机里开一个代理就可以了，我的主机是开着SSR代理的，但是可能是之前设置网卡的时候已经设置好了，虚拟机翻不了墙" class="headerlink" title="1. 无法访问无非是因为被qiang了，如果你愿意在虚机里开一个代理就可以了，我的主机是开着SSR代理的，但是可能是之前设置网卡的时候已经设置好了，虚拟机翻不了墙"></a>1. 无法访问无非是因为被qiang了，如果你愿意在虚机里开一个代理就可以了，我的主机是开着SSR代理的，但是可能是之前设置网卡的时候已经设置好了，虚拟机翻不了墙</h3><h3 id="2-手动去github上下载镜像"><a href="#2-手动去github上下载镜像" class="headerlink" title="2. 手动去github上下载镜像"></a>2. 手动去github上下载镜像</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir $GOPATH/src/golang.org/</span><br><span class="line">mkdir $GOPATH/src/golang.org/x/</span><br><span class="line">go get -d github.com/golang/tools</span><br></pre></td></tr></table></figure>
+
+<p>进入tools</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go install golang.org/x/tools/go/buildutil</span><br></pre></td></tr></table></figure>
+
+<p>不得不说这次作业真的让我明白了看报错信息的重要性，以前我用虚拟机只要报错就Google，但是哪有那么多人跟你是一模一样的bug</p>
+<p><img src="http://pxcpbo9xv.bkt.clouddn.com/%EF%BC%92.png" alt><br><code>no file in …… tools</code></p>
+<p>注意看这里，在我捣鼓了一下午的时间里出现了不少这句话，最后我学会了缺什么就去github上下什么</p>
+<p>然后<code>cp $GOPATH/src/github.com/golang/tools $GOPATH/src/golang.org/x/ -rf</code><br><img src="http://pxcpbo9xv.bkt.clouddn.com/%EF%BC%94.png" alt></p>
+<p><img src="http://pxcpbo9xv.bkt.clouddn.com/%EF%BC%95.png" alt><br>好了</p>
+<p>然后进入vscode再点install all就可以下载那些插件了，但是还有一个是FAILD，那个还要再下载一个镜像，但是也不是很重要，我就没再下了</p>
+<h3 id="3-如果你还是不行还有两种情况（可见我折腾了多久o-╥﹏╥-o）"><a href="#3-如果你还是不行还有两种情况（可见我折腾了多久o-╥﹏╥-o）" class="headerlink" title="3. 如果你还是不行还有两种情况（可见我折腾了多久o(╥﹏╥)o）"></a>3. <strong>如果你还是不行</strong>还有两种情况（可见我折腾了多久o(╥﹏╥)o）</h3><ul>
+<li>x库还是没有下载完全，根据报错内容和你自己的文件结构和<a href="https://github.com/golang" target="_blank" rel="noopener">这里</a>对比，缺啥clone啥就对了</li>
+<li><strong>如果你还是还是不行</strong><br>VScode老是报错找不到任何文件在什么什么路径下……八成是你的环境变量设置错了，或者是后来又改了或者是重启了没有重新source<ul>
+<li>更改环境变量并且直接vim（这里要使用sudo vim不然没有权限） ~/.bashrc 然后source</li>
+<li>vscode卸了重装</li>
+</ul>
+</li>
+</ul>
+<h2 id="go-tour-离线中文版本"><a href="#go-tour-离线中文版本" class="headerlink" title="go tour 离线中文版本"></a>go tour 离线中文版本</h2><p>参考<a href="https://www.jianshu.com/p/4094b1063016" target="_blank" rel="noopener">这里</a></p>
+<ul>
+<li><p>去<a href="https://bitbucket.org/mikespook/go-tour-zh/downloads/" target="_blank" rel="noopener">bitbucket</a>上download repository</p>
+</li>
+<li><p>然后移动到$GOPATH/src/bitbucket.org/mikespook/目录下，并重命名为go-tour-zh</p>
+</li>
+<li><p>cd 到gotour目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go install</span><br><span class="line">gotour</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这里我又报错了，还是没找到库里的一个文件，然后我再次对比发现少了x/net，用和clone tools一样的方法把net也clone下来就可以了</p>
+</li>
+</ul>
+<p><img src="http://pxcpbo9xv.bkt.clouddn.com/%EF%BC%91.png" alt><br>终于好了……为什么我没有图了呢……因为我的虚拟机突然卡死了……实在不好意思凑合看吧o(╥﹏╥)o</p>
 
       </div>
     </div>
