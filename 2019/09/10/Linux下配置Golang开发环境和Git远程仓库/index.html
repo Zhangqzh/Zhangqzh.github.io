@@ -59,7 +59,22 @@
     <div class="lx-entry padding">
       <div>
         <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><h2 id="安装Golang开发环境"><a href="#安装Golang开发环境" class="headerlink" title="安装Golang开发环境"></a>安装Golang开发环境</h2><p><a href="https://pmlpml.github.io/ServiceComputingOnCloud/ex-install-go?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">这里有安装步骤</a>，不再赘述，这里写一下可能遇到的一些问题</p>
+<h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><p>目录（包括整个环境搭建过程和我自己遇到的一些问题）：</p>
+<ul>
+<li>安装Golang开发环境<ul>
+<li>安装vscode编译器</li>
+<li>Golang安装过程中遇到的问题</li>
+</ul>
+</li>
+<li>Git远程仓库的配置<ul>
+<li>使用ssh协议实现git与远程仓库的连接</li>
+<li>使用https协议实现git与远程仓库的连接</li>
+</ul>
+</li>
+<li>安装一些插件和工具</li>
+<li>gotour离线中文版本的配置</li>
+</ul>
+<h2 id="安装Golang开发环境"><a href="#安装Golang开发环境" class="headerlink" title="安装Golang开发环境"></a>安装Golang开发环境</h2><p><a href="https://pmlpml.github.io/ServiceComputingOnCloud/ex-install-go?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">这里有安装步骤</a>，不再赘述，这里写一下可能遇到的一些问题</p>
 <h3 id="1-安装vscode编译器"><a href="#1-安装vscode编译器" class="headerlink" title="1. 安装vscode编译器"></a>1. 安装vscode编译器</h3><ul>
 <li><a href="https://code.visualstudio.com/docs/setup/linux" target="_blank" rel="noopener">官方教程：Linux下安装vscode</a></li>
 <li>但是我使用官方教程上的老是会遇到各种error，如果你也不行可以直接这样→ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc</span><br><span class="line">$ sudo sh -c &apos;echo -e &quot;[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc&quot; &gt; /etc/yum.repos.d/vscode.repo&apos;</span><br><span class="line">$ yum check-update</span><br><span class="line">$ sudo yum install code</span><br></pre></td></tr></table></figure>
