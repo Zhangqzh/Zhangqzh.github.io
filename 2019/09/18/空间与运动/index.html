@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>空间与运动 | ZZ blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rica Zhang">
+  <meta name="keywords" content="ZZ, ZZ Blog, �ō���Ĳ���">
+  <meta name="description" content="Whatever will be, will be.">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: '-'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/person_1.jpg"></a></div>
+    <span>2019-09-18</span>
+    <h2>空间与运动</h2>
+    
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><h2 id="一-简答并用程序验证【建议做】"><a href="#一-简答并用程序验证【建议做】" class="headerlink" title="一. 简答并用程序验证【建议做】"></a>一. 简答并用程序验证【建议做】</h2><ul>
+<li><p><strong>游戏对象运动的本质是什么？</strong></p>
+<blockquote>
+<p>游戏对象的运动，实质上是游戏对象相对于原点位置的改变，或者相对于其他游戏对象位置的改变，通过transform组件中的position属性数值的改变可以实现游戏对象的运动。  </p>
+</blockquote>
+</li>
+<li><p><strong>请用三种以上的方法实现物体的抛物线运动。（如，修改Transform属性，使用向量Vector3的方法）</strong>    </p>
+<ol>
+<li><p>直接改变Transform的Position</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">  public float Vx;</span><br><span class="line">  public float Vy;</span><br><span class="line"></span><br><span class="line">  private float nowVy;</span><br><span class="line">  private Transform originTransform;</span><br><span class="line"></span><br><span class="line"> // Use this for initialization</span><br><span class="line">void Start () &#123;</span><br><span class="line">  nowVy = Vy;</span><br><span class="line">  originTransform = this.transform;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> // Update is called once per frame</span><br><span class="line"> void Update () &#123;</span><br><span class="line">  if (nowVy+Vy &gt; 0.00001) &#123;</span><br><span class="line">      this.transform.position += Vector3.up * Time.deltaTime * nowVy;</span><br><span class="line">      this.transform.position += Vector3.left * Time.deltaTime * Vx;</span><br><span class="line">      nowVy -= 10 * Time.deltaTime;       </span><br><span class="line">  &#125; else &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>通过使用Vector3.MoveTowards</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> // Update is called once per frame</span><br><span class="line">void Update () &#123;</span><br><span class="line">  Debug.Log (nowVy + Vy);</span><br><span class="line">  if (nowVy+Vy &gt; 0.00001) &#123;</span><br><span class="line">      Vector3 target = this.transform.position + Vector3.up * Time.deltaTime * nowVy + Vector3.left * Time.deltaTime * Vx;</span><br><span class="line">      this.transform.position = Vector3.MoveTowards (this.transform.position, target, Time.deltaTime);</span><br><span class="line">      nowVy -= 10 * Time.deltaTime;       </span><br><span class="line">  &#125; else &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过使用transform.Translate</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> public float Vx;</span><br><span class="line"> public float Vy;</span><br><span class="line"></span><br><span class="line"> private float nowVy;</span><br><span class="line"> private Vector3 speed;</span><br><span class="line"> private Vector3 Gravity;</span><br><span class="line"></span><br><span class="line"> // Use this for initialization</span><br><span class="line"> void Start () &#123;</span><br><span class="line">  Gravity = Vector3.zero;</span><br><span class="line">  speed = new Vector3 (Vx, Vy, 0);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> // Update is called once per frame</span><br><span class="line"> void Update () &#123;</span><br><span class="line">  if (2*Vy+Gravity.y &gt; 0.00001) &#123;</span><br><span class="line">      Gravity.y -= 10 * Time.fixedDeltaTime;</span><br><span class="line">      this.transform.Translate (speed*Time.fixedDeltaTime);</span><br><span class="line">      this.transform.Translate (Gravity*Time.fixedDeltaTime);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="二-编程实践"><a href="#二-编程实践" class="headerlink" title="二. 编程实践"></a>二. 编程实践</h2><h3 id="阅读以下游戏脚本"><a href="#阅读以下游戏脚本" class="headerlink" title="阅读以下游戏脚本"></a>阅读以下游戏脚本</h3><blockquote>
+<p>*Priests and Devils  </p>
+<pre><code>Priests and Devils is a puzzle game in which you will help the Priests and Devils to cross the river within the time limit. There are 3 priests and 3 devils at one side of the river. They all want to get to the other side of this river, but there is only one boat and this boat can only carry two persons each time. And there must be one person steering the boat from one side to the other side. In the flash game, you can click on them to move them and click the go button to move the boat to the other direction. If the priests are out numbered by the devils on either side of the river, they get killed and the game is over. You can try it in many &gt; ways. Keep all priests alive! Good luck!*  </code></pre></blockquote>
+<h3 id="程序需要满足的要求"><a href="#程序需要满足的要求" class="headerlink" title="程序需要满足的要求"></a>程序需要满足的要求</h3><ul>
+<li>play the game ( <a href="http://www.flash-game.net/game/2535/priests-and-devils.html" target="_blank" rel="noopener">http://www.flash-game.net/game/2535/priests-and-devils.html</a> )</li>
+<li>列出游戏中提及的事物（Objects）<br>牧师，魔鬼，船，go按钮，出发岸，结束岸，水  </li>
+<li>玩家动作表  </li>
+</ul>
+</li>
+</ul>
+<pre><code>|  动作  | 规则  |
+|  ----   | ---- |
+| 开船  | 船停靠在岸边且穿上至少有一人 |
+| 上船  | 船停靠在岸边，船上有空位且岸上有人 |
+| 下船  | 船停靠在岸边且船上有人 |  
+- 请将游戏中对象做成预制
+- 在 GenGameObjects 中创建 长方形、正方形、球 及其色彩代表游戏中的对象。
+- 使用 C# 集合类型 有效组织对象
+- 整个游戏仅 主摄像机 和 一个 Empty 对象， 其他对象必须代码动态生成！！！ 。 整个游戏不许出现 Find 游戏对象， SendMessage 这类突破程序结构的 通讯耦合 语句。 违背本条准则，不给分
+- 请使用课件架构图编程，不接受非 MVC 结构程序
+- 注意细节，例如：船未靠岸，牧师与魔鬼上下船运动中，均不能接受用户事件！</code></pre><h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p>   做好预制（Priests，Devil，Water，Boat,Shore)<br>   可以先去做一些materials，去网上搜图片<br>   <img src="http://pxcpbo9xv.bkt.clouddn.com/20.png" alt><br>   然后把对应的material拖到prefab的属性栏里<br>   <img src="http://pxcpbo9xv.bkt.clouddn.com/21.png" alt><br>   创建scripts文件夹并编写代码<br>   <img src="http://pxcpbo9xv.bkt.clouddn.com/22.png" alt><br>   目录结构如图所示<br>   <img src="http://pxcpbo9xv.bkt.clouddn.com/23.png" alt><br>   代码写好后把对应的脚本拖到Scene的Object中，我把ClickGUI拖到了Main Camera下面，然后创建一个空对象并把FirstController拖到下面<br>   <img src="http://pxcpbo9xv.bkt.clouddn.com/24.png" alt>  </p>
+<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><pre><code>#### MVC架构
+- Model：游戏中的GameObject
+- View：UserGUI，Click GUI
+- Controller：SSDirector（最高级别的Controller），FirstController,以及其他基础的Controller（BoatController,MyCharacterController,ShoreController)
+#### 游戏接口定义
+游戏中定义了两个接口类型，分别负责场景控制和用户交互，这两个接口不能直接实例化，而是要通过继承这两个接口来实现相应的功能
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public interface SceneController&#123;</span><br><span class="line">void loadResources();</span><br><span class="line">void pause();</span><br><span class="line">void resume();&#125;</span><br><span class="line"></span><br><span class="line">public interface IUserAction&#123;</span><br><span class="line">void moveBoat();</span><br><span class="line">void characterIsClicked(MyCharacterController characterCtrl);</span><br><span class="line">void restart();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+#### View定义
+##### ClickGUI
+ClickGUI用来检测用户的点击行为，并利用SceneController中的方法进行处理
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">  using System.Collections;</span><br><span class="line">  using System.Collections.Generic;</span><br><span class="line"> using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class ClickGUI : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">  IUserAction action;</span><br><span class="line">  MyCharacterController characterController;</span><br><span class="line"></span><br><span class="line">  public void setController(MyCharacterController characterCtrl)</span><br><span class="line">  &#123;</span><br><span class="line">      characterController = characterCtrl;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void Start()</span><br><span class="line">  &#123;</span><br><span class="line">      action = SSDirector.getInstance().currentSceneController as IUserAction;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void OnMouseDown()</span><br><span class="line">  &#123;</span><br><span class="line">      if (SSDirector.getInstance().state == State.START)</span><br><span class="line">      &#123;</span><br><span class="line">          if (gameObject.name == &quot;boat&quot;)</span><br><span class="line">          &#123;</span><br><span class="line">              action.moveBoat();</span><br><span class="line">          &#125;</span><br><span class="line">          else</span><br><span class="line">          &#123;</span><br><span class="line">              action.characterIsClicked(characterController);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></code></pre><h5 id="UserGUI"><a href="#UserGUI" class="headerlink" title="UserGUI"></a>UserGUI</h5><p>   UserGUI 类用来显示游戏中的开始/暂停按钮、游戏状态和倒计时等元素，也是用户控制游戏开始和暂停的入口。  </p>
+<h4 id="Controller定义"><a href="#Controller定义" class="headerlink" title="Controller定义"></a>Controller定义</h4><h5 id="BoatController定义"><a href="#BoatController定义" class="headerlink" title="BoatController定义"></a>BoatController定义</h5>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">readonly GameObject boat;//对象</span><br><span class="line">readonly Moveable moveableScript;//控制移动</span><br><span class="line">readonly Vector3 fromPosition = new Vector3(5, 1, 0);//船上的能坐人的位置，右边</span><br><span class="line">readonly Vector3 toPosition = new Vector3(-5, 1, 0);//船上的能做人的位置，左边</span><br><span class="line">readonly Vector3[] from_positions;</span><br><span class="line">readonly Vector3[] to_positions;</span><br><span class="line"></span><br><span class="line">// change frequently</span><br><span class="line">int to_or_from; // to-&gt;-1; from-&gt;1 船在岸的左/右边</span><br><span class="line">MyCharacterController[] passenger = new MyCharacterController[2];//船上的人物</span><br></pre></td></tr></table></figure>
+
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">///&lt;summary&gt;</span><br><span class="line">///船的移动，每移动一次改变标志位to_or_from</span><br><span class="line">///&lt;/summary&gt;</span><br><span class="line">    public void Move()</span><br><span class="line">&#123;</span><br><span class="line">    if (to_or_from == -1)</span><br><span class="line">    &#123;</span><br><span class="line">        moveableScript.setDestination(fromPosition);</span><br><span class="line">        to_or_from = 1;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        moveableScript.setDestination(toPosition);</span><br><span class="line">        to_or_from = -1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"> public int getEmptyIndex()</span><br><span class="line">&#123;</span><br><span class="line">    for (int i = 0; i &lt; passenger.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if (passenger[i] == null)</span><br><span class="line">        &#123;</span><br><span class="line">            return i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public bool isEmpty()</span><br><span class="line">&#123;</span><br><span class="line">    for (int i = 0; i &lt; passenger.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if (passenger[i] != null)</span><br><span class="line">        &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;//获取船上的空位并判断是否没人</span><br><span class="line"> public Vector3 getEmptyPosition()</span><br><span class="line">&#123;</span><br><span class="line">    Vector3 pos;</span><br><span class="line">    int emptyIndex = getEmptyIndex();</span><br><span class="line">    if (to_or_from == -1)</span><br><span class="line">    &#123;</span><br><span class="line">        pos = to_positions[emptyIndex];</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        pos = from_positions[emptyIndex];</span><br><span class="line">    &#125;</span><br><span class="line">    return pos;</span><br><span class="line">&#125;//获取没人位置的坐标</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    public void GetOnBoat(MyCharacterController characterCtrl)</span><br><span class="line">&#123;</span><br><span class="line">    int index = getEmptyIndex();</span><br><span class="line">    passenger[index] = characterCtrl;</span><br><span class="line">&#125;//人物对象上船</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> public MyCharacterController GetOffBoat(string passenger_name)</span><br><span class="line">&#123;</span><br><span class="line">    for (int i = 0; i &lt; passenger.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if (passenger[i] != null &amp;&amp; passenger[i].getName() == passenger_name)</span><br><span class="line">        &#123;</span><br><span class="line">            MyCharacterController charactorCtrl = passenger[i];</span><br><span class="line">            passenger[i] = null;</span><br><span class="line">            return charactorCtrl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Debug.Log(&quot;Cant find passenger in boat: &quot; + passenger_name);</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br><span class="line">//人物对象下船，得到下船人物的名字并返回它的控制器</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public int[] getCharacterNum()</span><br><span class="line">&#123;</span><br><span class="line">    int[] count = &#123; 0, 0 &#125;;</span><br><span class="line">    for (int i = 0; i &lt; passenger.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if (passenger[i] == null)</span><br><span class="line">            continue;</span><br><span class="line">        if (passenger[i].getType() == 0)</span><br><span class="line">        &#123;   // 0-&gt;priest, 1-&gt;devil</span><br><span class="line">            count[0]++;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            count[1]++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return count;</span><br><span class="line">&#125;//获取船上个身份人物的数量</span><br></pre></td></tr></table></figure>
+
+##### 其他具体的controller不再一一介绍  </code></pre><h3 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h3><p>   <img src="http://pxcpbo9xv.bkt.clouddn.com/20190918_155211.mp4" alt></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/09/12/执行go程序和创建包/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>执行go程序和创建包</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">ZZ blog</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/person_1.jpg" alt="Rica Zhang"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Rica Zhang</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
