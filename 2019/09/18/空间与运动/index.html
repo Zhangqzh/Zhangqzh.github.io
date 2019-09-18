@@ -112,112 +112,126 @@
 ##### ClickGUI
 ClickGUI用来检测用户的点击行为，并利用SceneController中的方法进行处理
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">  using System.Collections;</span><br><span class="line">  using System.Collections.Generic;</span><br><span class="line"> using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class ClickGUI : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">  IUserAction action;</span><br><span class="line">  MyCharacterController characterController;</span><br><span class="line"></span><br><span class="line">  public void setController(MyCharacterController characterCtrl)</span><br><span class="line">  &#123;</span><br><span class="line">      characterController = characterCtrl;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void Start()</span><br><span class="line">  &#123;</span><br><span class="line">      action = SSDirector.getInstance().currentSceneController as IUserAction;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void OnMouseDown()</span><br><span class="line">  &#123;</span><br><span class="line">      if (SSDirector.getInstance().state == State.START)</span><br><span class="line">      &#123;</span><br><span class="line">          if (gameObject.name == &quot;boat&quot;)</span><br><span class="line">          &#123;</span><br><span class="line">              action.moveBoat();</span><br><span class="line">          &#125;</span><br><span class="line">          else</span><br><span class="line">          &#123;</span><br><span class="line">              action.characterIsClicked(characterController);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></code></pre><h5 id="UserGUI"><a href="#UserGUI" class="headerlink" title="UserGUI"></a>UserGUI</h5><p>   UserGUI 类用来显示游戏中的开始/暂停按钮、游戏状态和倒计时等元素，也是用户控制游戏开始和暂停的入口。  </p>
-<h4 id="Controller定义"><a href="#Controller定义" class="headerlink" title="Controller定义"></a>Controller定义</h4><h5 id="BoatController定义"><a href="#BoatController定义" class="headerlink" title="BoatController定义"></a>BoatController定义</h5>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">readonly GameObject boat;//对象</span><br><span class="line">readonly Moveable moveableScript;//控制移动</span><br><span class="line">readonly Vector3 fromPosition = new Vector3(5, 1, 0);//船上的能坐人的位置，右边</span><br><span class="line">readonly Vector3 toPosition = new Vector3(-5, 1, 0);//船上的能做人的位置，左边</span><br><span class="line">readonly Vector3[] from_positions;</span><br><span class="line">readonly Vector3[] to_positions;</span><br><span class="line"></span><br><span class="line">// change frequently</span><br><span class="line">int to_or_from; // to-&gt;-1; from-&gt;1 船在岸的左/右边</span><br><span class="line">MyCharacterController[] passenger = new MyCharacterController[2];//船上的人物</span><br></pre></td></tr></table></figure>
+<h4 id="Controller定义"><a href="#Controller定义" class="headerlink" title="Controller定义"></a>Controller定义</h4><h5 id="BoatController定义"><a href="#BoatController定义" class="headerlink" title="BoatController定义"></a>BoatController定义</h5><pre><code class="c#"> readonly GameObject boat;//对象
+ readonly Moveable moveableScript;//控制移动
+ readonly Vector3 fromPosition = new Vector3(5, 1, 0);//船上的能坐人的位置，右边
+ readonly Vector3 toPosition = new Vector3(-5, 1, 0);//船上的能做人的位置，左边
+ readonly Vector3[] from_positions;
+ readonly Vector3[] to_positions;
 
-<pre><code>```c#
-///&lt;summary&gt;
-///船的移动，每移动一次改变标志位to_or_from
-///&lt;/summary&gt;
-    public void Move()
-{
-    if (to_or_from == -1)
-    {
-        moveableScript.setDestination(fromPosition);
-        to_or_from = 1;
-    }
-    else
-    {
-        moveableScript.setDestination(toPosition);
-        to_or_from = -1;
-    }
-}
-```  
+ // change frequently
+ int to_or_from; // to-&gt;-1; from-&gt;1 船在岸的左/右边
+ MyCharacterController[] passenger = new MyCharacterController[2];//船上的人物
 
-```c#
- public int getEmptyIndex()
-{
-    for (int i = 0; i &lt; passenger.Length; i++)
-    {
-        if (passenger[i] == null)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
+ //----------分割线---------------------
+ ///&lt;summary&gt;
+ ///船的移动，每移动一次改变标志位to_or_from
+ ///&lt;/summary&gt;
+     public void Move()
+ {
+     if (to_or_from == -1)
+     {
+         moveableScript.setDestination(fromPosition);
+         to_or_from = 1;
+     }
+     else
+     {
+         moveableScript.setDestination(toPosition);
+         to_or_from = -1;
+     }
+ }
+ //----------分割线---------------------
+  public int getEmptyIndex()
+ {
+     for (int i = 0; i &lt; passenger.Length; i++)
+     {
+         if (passenger[i] == null)
+         {
+             return i;
+         }
+     }
+     return -1;
+ }
 
-public bool isEmpty()
-{
-    for (int i = 0; i &lt; passenger.Length; i++)
-    {
-        if (passenger[i] != null)
-        {
-            return false;
-        }
-    }
-    return true;
-}//获取船上的空位并判断是否没人
- public Vector3 getEmptyPosition()
-{
-    Vector3 pos;
-    int emptyIndex = getEmptyIndex();
-    if (to_or_from == -1)
-    {
-        pos = to_positions[emptyIndex];
-    }
-    else
-    {
-        pos = from_positions[emptyIndex];
-    }
-    return pos;
-}//获取没人位置的坐标
-```  
-```c#
-    public void GetOnBoat(MyCharacterController characterCtrl)
-{
-    int index = getEmptyIndex();
-    passenger[index] = characterCtrl;
-}//人物对象上船
-```  
+ public bool isEmpty()
+ {
+     for (int i = 0; i &lt; passenger.Length; i++)
+     {
+         if (passenger[i] != null)
+         {
+             return false;
+         }
+     }
+     return true;
+ }//获取船上的空位并判断是否没人
+  public Vector3 getEmptyPosition()
+ {
+     Vector3 pos;
+     int emptyIndex = getEmptyIndex();
+     if (to_or_from == -1)
+     {
+         pos = to_positions[emptyIndex];
+     }
+     else
+     {
+         pos = from_positions[emptyIndex];
+     }
+     return pos;
+ }//获取没人位置的坐标
+ //----------分割线---------------------
+     public void GetOnBoat(MyCharacterController characterCtrl)
+ {
+     int index = getEmptyIndex();
+     passenger[index] = characterCtrl;
+ }//人物对象上船
+ //----------分割线---------------------
+  public MyCharacterController GetOffBoat(string passenger_name)
+ {
+     for (int i = 0; i &lt; passenger.Length; i++)
+     {
+         if (passenger[i] != null &amp;&amp; passenger[i].getName() == passenger_name)
+         {
+             MyCharacterController charactorCtrl = passenger[i];
+             passenger[i] = null;
+             return charactorCtrl;
+         }
+     }
+     Debug.Log(&quot;Cant find passenger in boat: &quot; + passenger_name);
+     return null;
+ }
+ //人物对象下船，得到下船人物的名字并返回它的控制器
+ //----------分割线---------------------
+ public int[] getCharacterNum()
+ {
+     int[] count = { 0, 0 };
+     for (int i = 0; i &lt; passenger.Length; i++)
+     {
+         if (passenger[i] == null)
+             continue;
+         if (passenger[i].getType() == 0)
+         {   // 0-&gt;priest, 1-&gt;devil
+             count[0]++;
+         }
+         else
+         {
+             count[1]++;
+         }
+     }
+     return count;
+ }//获取船上个身份人物的数量
+ ```  
 
-```c#
- public MyCharacterController GetOffBoat(string passenger_name)
-{
-    for (int i = 0; i &lt; passenger.Length; i++)
-    {
-        if (passenger[i] != null &amp;&amp; passenger[i].getName() == passenger_name)
-        {
-            MyCharacterController charactorCtrl = passenger[i];
-            passenger[i] = null;
-            return charactorCtrl;
-        }
-    }
-    Debug.Log(&quot;Cant find passenger in boat: &quot; + passenger_name);
-    return null;
-}
-//人物对象下船，得到下船人物的名字并返回它的控制器
-```  
+##### 其他具体的controller不再一一介绍  
+### 实现效果  
+[视频链接](http://pxcpbo9xv.bkt.clouddn.com/20190918_155211.mp4)
 
-```c#
-public int[] getCharacterNum()
-{
-    int[] count = { 0, 0 };
-    for (int i = 0; i &lt; passenger.Length; i++)
-    {
-        if (passenger[i] == null)
-            continue;
-        if (passenger[i].getType() == 0)
-        {   // 0-&gt;priest, 1-&gt;devil
-            count[0]++;
-        }
-        else
-        {
-            count[1]++;
-        }
-    }
-    return count;
-}//获取船上个身份人物的数量
-```  </code></pre><h5 id="其他具体的controller不再一一介绍"><a href="#其他具体的controller不再一一介绍" class="headerlink" title="其他具体的controller不再一一介绍"></a>其他具体的controller不再一一介绍</h5><h3 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h3><p>   <a href="http://pxcpbo9xv.bkt.clouddn.com/20190918_155211.mp4" target="_blank" rel="noopener">视频链接</a></p>
+
+
+
+
+
+
+</code></pre>
 
       </div>
     </div>
