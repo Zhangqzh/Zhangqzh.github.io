@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>游戏对象与图形基础 | ZZ blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rica Zhang">
+  <meta name="keywords" content="ZZ, ZZ Blog, �ō���Ĳ���">
+  <meta name="description" content="Whatever will be, will be.">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: '-'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/person_1.jpg"></a></div>
+    <span>2019-09-25</span>
+    <h2>游戏对象与图形基础</h2>
+    
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="基本操作演练【建议做】"><a href="#基本操作演练【建议做】" class="headerlink" title="基本操作演练【建议做】"></a>基本操作演练【建议做】</h2><h3 id="下载Fantasy-Skybox-Free，构建自己的游戏场景"><a href="#下载Fantasy-Skybox-Free，构建自己的游戏场景" class="headerlink" title="下载Fantasy Skybox Free，构建自己的游戏场景"></a>下载Fantasy Skybox Free，构建自己的游戏场景</h3><p>打开assert store，download一个Fantasy skybox，然后import就可以在自己项目的assert里找到了<br>然后选择一个Materials里的天空盒子样式<br><img src="http://pxcpbo9xv.bkt.clouddn.com/35.jpg" alt><br>如果想diy也可以<br>首先把需要的贴图放到Assert里<br><img src="http://pxcpbo9xv.bkt.clouddn.com/36.jpg" alt><br>然后创建一个Material，并将Shader的值改为Skybox/6 Sided<br><img src="http://pxcpbo9xv.bkt.clouddn.com/37.jpg" alt><br>把天空盒的每个面都贴图上去就好了<br>下载的资源里还有Terrain地面<br><img src="http://pxcpbo9xv.bkt.clouddn.com/33.jpg" alt><br>已经弄好了地形和颜色等，但是是光秃秃的，不过还可以导入预制里的树和小花小草小蘑菇，自己喜欢什么也可以下载资源<br><img src="http://pxcpbo9xv.bkt.clouddn.com/34.png" alt><br>按照说明对地形进行调整<br><img src="http://pxcpbo9xv.bkt.clouddn.com/38.png" alt><br>点击edit trees就可以把预制里的树拖进来并选择数量<br><img src="http://pxcpbo9xv.bkt.clouddn.com/32.jpg" alt><br>游戏场景就弄好了<br><img src="http://pxcpbo9xv.bkt.clouddn.com/31.jpg" alt><br>在场景中创建人物并把摄像头对准人物就完成了游戏场景的创建  </p>
+<h3 id="写一个简单的总结，总结游戏对象的使用"><a href="#写一个简单的总结，总结游戏对象的使用" class="headerlink" title="写一个简单的总结，总结游戏对象的使用"></a>写一个简单的总结，总结游戏对象的使用</h3><h4 id="常用的游戏对象："><a href="#常用的游戏对象：" class="headerlink" title="常用的游戏对象："></a>常用的游戏对象：</h4><ul>
+<li>空对象（Empty）：不显示的游戏对象，可以用来挂载脚本  </li>
+<li>摄像机（Camera）：游戏显示画面的来源，创建多个摄像机可以展现多个游戏视角  </li>
+<li>3D物体（3D Object）：游戏中的三维物体  </li>
+<li>2D物体（2D Object）：游戏中的二维物体  </li>
+<li>光线（Light）：营造游戏场景的光线效果  </li>
+<li>声音（Audio）：游戏中的声音素材，背景音乐或者活动音效等  </li>
+<li>视频（Video）：游戏中的视频素材  <h4 id="游戏对象的创建："><a href="#游戏对象的创建：" class="headerlink" title="游戏对象的创建："></a>游戏对象的创建：</h4>游戏对象可以在运行前创建也可以在游戏过程中通过脚本动态地创建，也可以使用预设创建对象。使用预设创建可以创建多个类似的重复地对象，避免重复操作  <h4 id="游戏对象的使用方法"><a href="#游戏对象的使用方法" class="headerlink" title="游戏对象的使用方法"></a>游戏对象的使用方法</h4>Unity3d中每个游戏对象都由许多属性构成（包括基本属性transform等，还有第三方可添加的属性），我们可以通过添加脚本来控制每个游戏对象的属性和行为以及游戏对象间的互动和通信，从而构成实现不同的游戏场景   </li>
+</ul>
+<h2 id="编程实践"><a href="#编程实践" class="headerlink" title="编程实践"></a>编程实践</h2><h3 id="牧师与魔鬼-动作分离版"><a href="#牧师与魔鬼-动作分离版" class="headerlink" title="牧师与魔鬼 动作分离版"></a>牧师与魔鬼 动作分离版</h3><p>这次与上次的主要区别是实现动作分离，上一次的动作是由专门的类完成的，并且每个对象各自管理自己的移动属性，现在将这些动作管理分离出来，实现动作和物体属性的分离  </p>
+<h4 id="UML图"><a href="#UML图" class="headerlink" title="UML图"></a>UML图</h4><p><img src="http://pxcpbo9xv.bkt.clouddn.com/39.jpg" alt></p>
+<h4 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h4><h5 id="动作基类"><a href="#动作基类" class="headerlink" title="动作基类"></a>动作基类</h5><p>基类创建了动作管理器的基本元素，它继承了Unity的ScriptableObject类，该类是不需要绑定GameObject对象的可编程类。其中的属性包括enable（动作是否进行），destroy（动作是否被销毁）。同时利用接口实现游戏的通信  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class SSAction : ScriptableObject &#123;</span><br><span class="line">    public bool enable = true;</span><br><span class="line">    public bool destroy = false;</span><br><span class="line"></span><br><span class="line">    public GameObject GameObject &#123; get; set; &#125;</span><br><span class="line">    public Transform Transform &#123; get; set; &#125;</span><br><span class="line">    public ISSActionCallback Callback &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    protected SSAction() &#123; &#125;</span><br><span class="line"></span><br><span class="line">    // Use this for initialization</span><br><span class="line">    public virtual void Start() &#123;</span><br><span class="line">        throw new System.NotImplementedException();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Update is called once per frame</span><br><span class="line">    public virtual void Update() &#123;</span><br><span class="line">        throw new System.NotImplementedException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="实现直线运动"><a href="#实现直线运动" class="headerlink" title="实现直线运动"></a>实现直线运动</h5><p>简单动作类，实现单个动作并继承基类，即物体的移动，其中GetSSAction函数通过获取物体运动的目的地和速度，创建一个动作类，当动作完成时销毁该动作，并告诉管理者动作已经完成。这一功能在Update中实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class SSMoveToAction : SSAction &#123;</span><br><span class="line">    public Vector3 target; // 移动目标</span><br><span class="line">    public float speed; // 移动速度</span><br><span class="line"></span><br><span class="line">    // 创建并返回动作的实例</span><br><span class="line">    public static SSMoveToAction GetSSMoveToAction(Vector3 target, float speed) &#123;</span><br><span class="line">        SSMoveToAction action = ScriptableObject.CreateInstance&lt;SSMoveToAction&gt;();</span><br><span class="line">        action.target = target;</span><br><span class="line">        action.speed = speed;</span><br><span class="line">        return action;</span><br><span class="line">    &#125;</span><br><span class="line">    // 在 Update 函数中用 Vector3.MoveTowards 实现直线运动</span><br><span class="line">    public override void Update() &#123;</span><br><span class="line">        this.Transform.position = Vector3.MoveTowards(this.Transform.position, target, speed * Time.deltaTime);</span><br><span class="line">        if (this.Transform.position == target) &#123;</span><br><span class="line">            this.destroy = true;</span><br><span class="line">            // 完成动作后进行动作回掉</span><br><span class="line">            this.Callback.SSActionEvent(this);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Use this for initialization</span><br><span class="line">    public override void Start() &#123;&#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="实现动作序列"><a href="#实现动作序列" class="headerlink" title="实现动作序列"></a>实现动作序列</h5><p>这个类同样要先创造一个动作类，但这里要创建的是动作序列。在Update中每一帧完成当前动作，当这一序列的动作完成时，停止并通过回调函数告诉管理者该序列动作已经完成，并删除序列。在执行动作前，需要为每一个动作注入游戏对象，在start中实现  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">public class SSSequenceAction : SSAction, ISSActionCallback &#123;</span><br><span class="line">    public List&lt;SSAction&gt; sequence; // 动作队列</span><br><span class="line">    public int repeat = -1; // 循环次数，-1表示无限循环</span><br><span class="line">    public int start = 0; // 当前执行的动作</span><br><span class="line"></span><br><span class="line">    // 创建并返回动作序列的实例</span><br><span class="line">    public static SSSequenceAction GetSSSequenceAction(int repeat, int start, List&lt;SSAction&gt; sequence) &#123;</span><br><span class="line">        SSSequenceAction action = ScriptableObject.CreateInstance&lt;SSSequenceAction&gt;();</span><br><span class="line">        action.repeat = repeat;</span><br><span class="line">        action.sequence = sequence;</span><br><span class="line">        action.start = start;</span><br><span class="line">        return action;</span><br><span class="line">    &#125;</span><br><span class="line">        // 在 Update 中执行当前动作</span><br><span class="line">    public override void Update() &#123;</span><br><span class="line">        if (sequence.Count == 0) return;</span><br><span class="line">        if (start &lt; sequence.Count) &#123;</span><br><span class="line">            sequence[start].Update();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">        // 更新当前执行的动作</span><br><span class="line">    public void SSActionEvent(SSAction source, SSActionEventType events = SSActionEventType.Completed,</span><br><span class="line">                              int intParam = 0, string strParam = null, object objectParam = null) &#123;</span><br><span class="line">        source.destroy = false;</span><br><span class="line">        this.start++;</span><br><span class="line">        if (this.start &gt;= sequence.Count) &#123;</span><br><span class="line">            this.start = 0;</span><br><span class="line">            if (repeat &gt; 0) repeat--;</span><br><span class="line">            if (repeat == 0) &#123;</span><br><span class="line">                this.destroy = true;</span><br><span class="line">                this.Callback.SSActionEvent(this);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Use this for initialization</span><br><span class="line">    public override void Start() &#123;</span><br><span class="line">        foreach (SSAction action in sequence) &#123;</span><br><span class="line">            action.GameObject = this.GameObject;</span><br><span class="line">            action.Transform = this.Transform;</span><br><span class="line">            action.Callback = this;</span><br><span class="line">            action.Start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    // 执行完毕后销毁动作</span><br><span class="line">    void OnDestroy() &#123;</span><br><span class="line">        foreach (SSAction action in sequence) &#123;</span><br><span class="line">            DestroyObject(action);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="管理动作"><a href="#管理动作" class="headerlink" title="管理动作"></a>管理动作</h5><p>动作做完自动回收，在这中有需要等待的动作和已经做完的动作，显然需要等待的动作加入等待列表，需要删除的动作加入删除列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class SSActionManager: MonoBehaviour &#123;</span><br><span class="line">    private Dictionary&lt;int, SSAction&gt; actions = new Dictionary&lt;int, SSAction&gt;();</span><br><span class="line">    private List&lt;SSAction&gt; waitingAdd = new List&lt;SSAction&gt;();</span><br><span class="line">    private List&lt;int&gt; waitingDelete = new List&lt;int&gt;();</span><br><span class="line"></span><br><span class="line">    protected void Update() &#123;</span><br><span class="line">        foreach (SSAction action in waitingAdd) &#123;</span><br><span class="line">            actions[action.GetInstanceID()] = action;</span><br><span class="line">        &#125;</span><br><span class="line">        waitingAdd.Clear();</span><br><span class="line"></span><br><span class="line">        foreach (KeyValuePair&lt;int, SSAction&gt; KeyValue in actions) &#123;</span><br><span class="line">            SSAction action = KeyValue.Value;</span><br><span class="line">            if (action.destroy) &#123;</span><br><span class="line">                // release action</span><br><span class="line">                waitingDelete.Add(action.GetInstanceID());</span><br><span class="line">            &#125;</span><br><span class="line">            else if (action.enable) &#123;</span><br><span class="line">                // update action</span><br><span class="line">                action.Update();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        foreach (int key in waitingDelete) &#123;</span><br><span class="line">            SSAction action = actions[key];</span><br><span class="line">            actions.Remove(key);</span><br><span class="line">            DestroyObject(action);</span><br><span class="line">        &#125;</span><br><span class="line">        waitingDelete.Clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 执行动作</span><br><span class="line">    public void RunAction(GameObject gameObject, SSAction action, ISSActionCallback callback) &#123;</span><br><span class="line">        action.GameObject = gameObject;</span><br><span class="line">        action.Transform = gameObject.transform;</span><br><span class="line">        action.Callback = callback;</span><br><span class="line">        waitingAdd.Add(action);</span><br><span class="line">        action.Start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="动作事件接口"><a href="#动作事件接口" class="headerlink" title="动作事件接口"></a>动作事件接口</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public enum SSActionEventType : int &#123; Started, Competeted &#125;  </span><br><span class="line"></span><br><span class="line">public interface ISSActionCallback  </span><br><span class="line">&#123;  </span><br><span class="line">    void SSActionEvent(SSAction source, SSActionEventType events = SSActionEventType.Competeted,  </span><br><span class="line">        int intParam = 0, string strParam = null, Object objectParam = null);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所有事件管理者必须实现这个接口，来实现事件调度。所以组合事件需要实现它，事件管理器也要实现它  </p>
+<h5 id="修改游戏事件管理"><a href="#修改游戏事件管理" class="headerlink" title="修改游戏事件管理"></a>修改游戏事件管理</h5><p>定义一个动作管理者，继承基础动作管理者，来管理场景的动作  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class FirstActionManager : SSActionManager, ISSActionCallback</span><br><span class="line">&#123;</span><br><span class="line">    // 移动船</span><br><span class="line">    public void MoveBoat(BoatController boatController)</span><br><span class="line">    &#123;</span><br><span class="line">        SSMoveToAction action = SSMoveToAction.GetSSMoveToAction(boatController.getDestination(), 20);</span><br><span class="line">        RunAction(boatController.boat, action, this);</span><br><span class="line">    &#125;</span><br><span class="line">    // 移动角色</span><br><span class="line">    public void MoveCharacter(MyCharacterController myCharacterController, Vector3 destination)</span><br><span class="line">    &#123;</span><br><span class="line">        Vector3 current = myCharacterController.character.transform.position;</span><br><span class="line">        Vector3 middle = destination; // 利用 middle 实现折线运动</span><br><span class="line">        if (destination.y &lt; current.y)</span><br><span class="line">        &#123;</span><br><span class="line">            middle.y = current.y;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            middle.x = current.x;</span><br><span class="line">        &#125;</span><br><span class="line">        SSAction firstMove = SSMoveToAction.GetSSMoveToAction(middle, 20);</span><br><span class="line">        SSAction secondMove = SSMoveToAction.GetSSMoveToAction(destination, 20);</span><br><span class="line">        SSAction sequenceAction = SSSequenceAction.GetSSSequenceAction(1, 0, new List&lt;SSAction&gt; &#123; firstMove, secondMove &#125;);</span><br><span class="line">        RunAction(myCharacterController.character, sequenceAction, this);</span><br><span class="line">    &#125;</span><br><span class="line">    public void SSActionEvent(SSAction source, SSActionEventType events = SSActionEventType.Completed, int intParam = 0, string strParam = null, object objectParam = null)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后修改FirstController中的动作内容，利用FirstActionManager来调用动作执行  </p>
+<p>设计一个裁判类，当游戏达到结束条件时，通知场景控制器游戏结束  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">int check_game_over()</span><br><span class="line">&#123;   // 0-&gt;not finish, 1-&gt;lose, 2-&gt;win</span><br><span class="line">    int from_priest = 0;</span><br><span class="line">    int from_devil = 0;</span><br><span class="line">    int to_priest = 0;</span><br><span class="line">    int to_devil = 0;</span><br><span class="line"></span><br><span class="line">    int[] fromCount = fromShore.getCharacterNum();</span><br><span class="line">    from_priest += fromCount[0];</span><br><span class="line">    from_devil += fromCount[1];</span><br><span class="line"></span><br><span class="line">    int[] toCount = toShore.getCharacterNum();</span><br><span class="line">    to_priest += toCount[0];</span><br><span class="line">    to_devil += toCount[1];</span><br><span class="line"></span><br><span class="line">    if (to_priest + to_devil == 6)      // win</span><br><span class="line">        return 2;</span><br><span class="line"></span><br><span class="line">    int[] boatCount = boat.getCharacterNum();</span><br><span class="line">    if (boat.get_to_or_from() == -1)</span><br><span class="line">    &#123;   // boat at toShore</span><br><span class="line">        to_priest += boatCount[0];</span><br><span class="line">        to_devil += boatCount[1];</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;   // boat at fromShore</span><br><span class="line">        from_priest += boatCount[0];</span><br><span class="line">        from_devil += boatCount[1];</span><br><span class="line">    &#125;</span><br><span class="line">    if (from_priest &lt; from_devil &amp;&amp; from_priest &gt; 0)</span><br><span class="line">    &#123;       // lose</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line">    if (to_priest &lt; to_devil &amp;&amp; to_priest &gt; 0)</span><br><span class="line">    &#123;</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;           // not finish</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>#### </p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/09/18/空间与运动/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>空间与运动</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">ZZ blog</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/person_1.jpg" alt="Rica Zhang"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Rica Zhang</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
