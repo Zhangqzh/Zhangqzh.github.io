@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>CLI | ZZ blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rica Zhang">
+  <meta name="keywords" content="ZZ, ZZ Blog, �ō���Ĳ���">
+  <meta name="description" content="Whatever will be, will be.">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: '-'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/person_1.jpg"></a></div>
+    <span>2019-10-07</span>
+    <h2>CLI</h2>
+    
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>CLI（Command Line Interface）实用程序是Linux下应用开发的基础。正确的编写命令行程序让应用与操作系统融为一体，通过shell或script使得应用获得最大的灵活性与开发效率。Linux提供了cat、ls、copy等命令与操作系统交互；go语言提供一组实用程序完成从编码、编译、库管理、产品发布全过程支持；容器服务如docker、k8s提供了大量实用程序支撑云服务的开发、部署、监控、访问等管理任务；git、npm等都是大家比较熟悉的工具。尽管操作系统与应用系统服务可视化、图形化，但在开发领域，CLI在编程、调试、运维、管理中提供了图形化程序不可替代的灵活性与效率。<br>主要内容实现在第一个链接<br><a href="https://www.ibm.com/developerworks/cn/linux/shell/clutil/index.html" target="_blank" rel="noopener">开发Linux命令行实用程序</a></p>
+<h2 id="2-selpg"><a href="#2-selpg" class="headerlink" title="2. selpg"></a>2. selpg</h2><p><a href="https://www.csdn.net/link?target_url=https%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcn%2Flinux%2Fshell%2Fclutil%2Fselpg.c&id=82927996&token=c3b5a946f71045b9199bd35bc395aaf8" target="_blank" rel="noopener">selpg.c源码</a>  </p>
+<h3 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h3><p><a href="https://www.csdn.net/link?target_url=https%3A%2F%2Fo-my-chenjian.com%2F2017%2F09%2F20%2FUsing-Flag-And-Pflag-With-Golang%2F&id=82927996&token=7d81520b8ce986586aa06b4a09fcbf61" target="_blank" rel="noopener">Golang之使用Flag和Pflag</a><br><a href="https://www.csdn.net/link?target_url=https%3A%2F%2Fgodoc.org%2Fgithub.com%2Fspf13%2Fpflag%23Parse&id=82927996&token=c646f066b4e3534a91474203448abd9d" target="_blank" rel="noopener">Package pflag</a><br>相关代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	pflag.IntVarP(&amp;(args.startPage), <span class="string">"startPage"</span>, <span class="string">"s"</span>, <span class="number">-1</span>, <span class="string">"Define startPage"</span>)</span><br><span class="line">	pflag.IntVarP(&amp;(args.endPage), <span class="string">"endPage"</span>, <span class="string">"e"</span>, <span class="number">-1</span>, <span class="string">"Define endPage"</span>)</span><br><span class="line">	pflag.IntVarP(&amp;(args.pageLen), <span class="string">"pageLength"</span>, <span class="string">"l"</span>, <span class="number">72</span>, <span class="string">"Define pageLength"</span>)</span><br><span class="line">	pflag.StringVarP(&amp;(args.printDest), <span class="string">"printDest"</span>, <span class="string">"d"</span>, <span class="string">""</span>, <span class="string">"Define printDest"</span>)</span><br><span class="line">    pflag.BoolVarP(&amp;(args.pageType), <span class="string">"pageType"</span>, <span class="string">"f"</span>, <span class="literal">false</span>, <span class="string">"Define pageType"</span>)</span><br><span class="line"><span class="string">``</span><span class="string">`  </span></span><br><span class="line"><span class="string">### 检查变量和参数名</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span><span class="keyword">go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">checkArgs</span><span class="params">(args *selpgArgs)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(os.Args) &lt; <span class="number">3</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">"\n[Error]The arguments are not enough!\n"</span>)</span><br><span class="line">		pflag.Usage()</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (args.startPage == <span class="number">-1</span>) || (args.endPage == <span class="number">-1</span>) &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">"\n[Error]The startPage and endPage can't be empty! Please check your command!\n"</span>)</span><br><span class="line">		pflag.Usage()</span><br><span class="line">		os.Exit(<span class="number">2</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (args.startPage &lt;= <span class="number">0</span>) || (args.endPage &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">"\n[Error]The startPage and endPage can't be negative! Please check your command!\n"</span>)</span><br><span class="line">		pflag.Usage()</span><br><span class="line">		os.Exit(<span class="number">3</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> args.startPage &gt; args.endPage &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">"\n[Error]The startPage can't be bigger than the endPage! Please check your command!\n"</span>)</span><br><span class="line">		pflag.Usage()</span><br><span class="line">		os.Exit(<span class="number">4</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (args.pageType == <span class="literal">true</span>) &amp;&amp; (args.pageLen != <span class="number">72</span>) &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">"\n[Error]The command -l and -f are exclusive, you can't use them together!\n"</span>)</span><br><span class="line">		pflag.Usage()</span><br><span class="line">		os.Exit(<span class="number">5</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> args.pageLen &lt;= <span class="number">0</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">"\n[Error]The pageLen can't be less than 1 ! Please check your command!\n"</span>)</span><br><span class="line">		pflag.Usage()</span><br><span class="line">		os.Exit(<span class="number">6</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		pageType := <span class="string">"page length."</span></span><br><span class="line">		<span class="keyword">if</span> args.pageType == <span class="literal">true</span> &#123;</span><br><span class="line">			pageType = <span class="string">"The end sign /f."</span></span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Printf(<span class="string">"\n[ArgsStart]\n"</span>)</span><br><span class="line">		fmt.Printf(<span class="string">"startPage: %d\nendPage: %d\ninputFile: %s\npageLength: %d\npageType: %s\nprintDestation: %s\n[ArgsEnd]"</span>, args.startPage, args.endPage, args.inFileName, args.pageLen, pageType, args.printDest)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="OS"><a href="#OS" class="headerlink" title="OS"></a>OS</h3><p>Command<br>参考资料<br><a href="https://blog.csdn.net/chenbaoke/article/details/42556949" target="_blank" rel="noopener">golang中os/exec包的用法</a>  </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">excuteCMD</span><span class="params">(args *selpgArgs)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> fin *os.File</span><br><span class="line">	<span class="keyword">if</span> args.inFileName == <span class="string">""</span> &#123;</span><br><span class="line">		fin = os.Stdin</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		checkFileAccess(args.inFileName)</span><br><span class="line">		<span class="keyword">var</span> err error</span><br><span class="line">		fin, err = os.Open(args.inFileName)</span><br><span class="line">		checkError(err, <span class="string">"File input"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(args.printDest) == <span class="number">0</span> &#123;</span><br><span class="line">		output2Des(os.Stdout, fin, args.startPage, args.endPage, args.pageLen, args.pageType)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		output2Des(cmdExec(args.printDest), fin, args.startPage, args.endPage, args.pageLen, args.pageType)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过调用exec.Command()执行命令，返回一个cmd的结构体指针，cmd.StdinPipe()返回一个连接到command标准输入的管道，cmd.StoutPipe()返回一个连接到command标准输出的管道Pipe<br>使用fout通过command管道向printDest文件写入数据<br>cmd.Start()使用某个命令开始执行</p>
+<h2 id="3-使用测试"><a href="#3-使用测试" class="headerlink" title="3. 使用测试"></a>3. 使用测试</h2><p><code>./hw51 -s1 -e1 input_file.txt</code><br>!()[1]<br><code>./hw51 -s1 -e1 &lt;input_file.txt</code><br>!()[2]<br><code>./hw51 -s1 -e2 input_file.txt &gt;output_file</code><br>!()[3]<br><code>./hw51 -s1 -e4 input_file.txt 2&gt;error_file</code><br>!()[4]<br><code>./hw51 -s1 -e3 input_file.txt &gt;output_file 2&gt;error_file</code><br>!()[5]<br><code>./hw51 -s1 -e2 -f input_file.txt</code><br>!()[6]<br>测试文件包含一个换页符<br>!()[7]</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/09/25/游戏对象与图形基础/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>游戏对象与图形基础</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">ZZ blog</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/person_1.jpg" alt="Rica Zhang"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Rica Zhang</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
