@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>物理系统与碰撞 | ZZ blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rica Zhang">
+  <meta name="keywords" content="ZZ, ZZ Blog, �ō���Ĳ���">
+  <meta name="description" content="Whatever will be, will be.">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: '-'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/person_1.jpg"></a></div>
+    <span>2019-10-16</span>
+    <h2>物理系统与碰撞</h2>
+    
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <h1 id="改进飞碟（Hit-UFO）游戏"><a href="#改进飞碟（Hit-UFO）游戏" class="headerlink" title="改进飞碟（Hit UFO）游戏"></a>改进飞碟（Hit UFO）游戏</h1><ul>
+<li>游戏要求：<ul>
+<li>按 adapter模式 设计图修改飞碟游戏</li>
+<li>使它同时支持物理运动与运动学（变换）运动<h2 id="adapter模式："><a href="#adapter模式：" class="headerlink" title="adapter模式："></a>adapter模式：</h2>适配器模式，即定义一个包装类，用于包装不兼容的接口对象<blockquote>
+<p>包装类 = 适配器adapter<br>被包装对象 = 适配者Adaptee = 被适配的类</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<p>类的适配器模式就是把适配的类的API转换成为目标类的API<br><img src="https://www.z4a.net/images/2019/10/16/14400998d2fb888d4.png" alt><br>从上图可以看出：<br>Target期待调用Request方法，而Adaptee并没有，为使Target能够使用Adaptee类里的SpecificRequest方法，提供一个Adapter类，继承Adaptee并实现Target接口。  </p>
+<ol>
+<li>创建<strong>Target接口</strong></li>
+<li>创建源类</li>
+<li>创建适配器类<strong>Adapter</strong></li>
+<li>定义具体使用目标类，并通过Adapter类调用所需要的方法从而实现目标<br><img src="https://www.z4a.net/images/2019/10/16/2015919cf6b1eadc9.png" alt><h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><h3 id="实现物理运动"><a href="#实现物理运动" class="headerlink" title="实现物理运动"></a>实现物理运动</h3><h4 id="定义一个物理运动的类PhysicsAction"><a href="#定义一个物理运动的类PhysicsAction" class="headerlink" title="定义一个物理运动的类PhysicsAction"></a>定义一个物理运动的类PhysicsAction</h4>实现飞碟的物理运动，添加Rigidbody组件，模拟物理运动  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class PhysicsAction : Action</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    private Vector3 startDirection;                     // 初速度方向</span><br><span class="line">    private float power;                                // 控制飞碟速度的变量</span><br><span class="line"></span><br><span class="line">    public static PhysicsAction GetAction(Vector3 direction, float angle, float power)</span><br><span class="line">    &#123;</span><br><span class="line">        // 初始化飞碟的初速度方向</span><br><span class="line">        PhysicsAction action = CreateInstance&lt;PhysicsAction&gt;();</span><br><span class="line">        if (direction.x == -1)</span><br><span class="line">        &#123;</span><br><span class="line">            action.startDirection = Quaternion.Euler(new Vector3(0, 0, -angle)) * Vector3.left * power;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            action.startDirection = Quaternion.Euler(new Vector3(0, 0, angle)) * Vector3.right * power;</span><br><span class="line">        &#125;</span><br><span class="line">        action.power = power;</span><br><span class="line">        return action;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="定义物理运动的管理器"><a href="#定义物理运动的管理器" class="headerlink" title="定义物理运动的管理器"></a>定义物理运动的管理器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class PhysicsActionManager : ActionManager, ActionCallback</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public PhysicsAction physics; // 物理动作</span><br><span class="line"></span><br><span class="line">    // 管理飞行</span><br><span class="line">    public void Fly(GameObject disk, float angle, float power)</span><br><span class="line">    &#123;</span><br><span class="line">        physics = PhysicsAction.GetAction(disk.GetComponent&lt;DiskData&gt;().direction, angle, power);</span><br><span class="line">        this.RunAction(disk, physics, this);</span><br><span class="line">    &#125;</span><br><span class="line">    public void ActionEvent(Action source, ActionEventType events = ActionEventType.Completed,</span><br><span class="line">                            int intParam = 0, string strParam = null, object objectParam = null)</span><br><span class="line">    &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="定义通用接口"><a href="#定义通用接口" class="headerlink" title="定义通用接口"></a>定义通用接口</h4><p>适配器继承这个接口来进行运动的适配 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface IActionManager</span><br><span class="line">&#123;</span><br><span class="line">    void Fly(GameObject disk, float angle, float power, bool physics);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="实现适配器"><a href="#实现适配器" class="headerlink" title="实现适配器"></a>实现适配器</h4><p>适配器中包含两个运动管理器的实例，调用不同的运动管理器实现不同的运动模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class ActionManagerAdapter : MonoBehaviour, IActionManager</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    // 要适配的类</span><br><span class="line">    public FlyActionManager flyActionManager;</span><br><span class="line">    public PhysicsActionManager physicsActionManager;</span><br><span class="line"></span><br><span class="line">    public void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        flyActionManager = (FlyActionManager)gameObject.AddComponent&lt;FlyActionManager&gt;();</span><br><span class="line">        physicsActionManager = (PhysicsActionManager)gameObject.AddComponent&lt;PhysicsActionManager&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 实现通用接口</span><br><span class="line">    public void Fly(GameObject disk, float angle, float power, bool physics)</span><br><span class="line">    &#123;</span><br><span class="line">        if (physics)</span><br><span class="line">        &#123;</span><br><span class="line">            physicsActionManager.Fly(disk, angle, power);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            flyActionManager.Fly(disk, angle, power);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="运动学运动实现方法"><a href="#运动学运动实现方法" class="headerlink" title="运动学运动实现方法"></a>运动学运动实现方法</h3><p>在Disk上添加Rigidbody组件，取消勾选重力<br><img src="https://www.z4a.net/images/2019/10/16/TIM20191016143813.png" alt></p>
+<h3 id="游戏视频"><a href="#游戏视频" class="headerlink" title="游戏视频"></a>游戏视频</h3><p><a href="https://www.bilibili.com/video/av71408077" target="_blank" rel="noopener">物理运动</a><br><a href="https://www.bilibili.com/video/av71408145" target="_blank" rel="noopener">运动学运动</a></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/09/与游戏世界交互/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>与游戏世界交互</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">ZZ blog</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/person_1.jpg" alt="Rica Zhang"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Rica Zhang</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
