@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>CLI 命令行实用程序开发实战 - Agenda | ZZ blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rica Zhang">
+  <meta name="keywords" content="ZZ, ZZ Blog, �ō���Ĳ���">
+  <meta name="description" content="Whatever will be, will be.">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: '-'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/person_1.jpg"></a></div>
+    <span>2019-10-17</span>
+    <h2>CLI 命令行实用程序开发实战 - Agenda</h2>
+    
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>命令行实用程序并不是都象 cat、more、grep 是简单命令。go 项目管理程序，类似 java 项目管理 maven、Nodejs 项目管理程序 npm、git 命令行客户端、 docker 与 kubernetes 容器管理工具等等都是采用了较复杂的命令行。即一个实用程序同时支持多个子命令，每个子命令有各自独立的参数，命令之间可能存在共享的代码或逻辑，同时随着产品的发展，这些命令可能发生功能变化、添加新命令等。因此，符合 OCP 原则 的设计是至关重要的编程需求。  </p>
+<h2 id="2-JSON序列化与反序列化"><a href="#2-JSON序列化与反序列化" class="headerlink" title="2. JSON序列化与反序列化"></a>2. JSON序列化与反序列化</h2><p>参考：<a href="https://blog.go-zh.org/json-and-go" target="_blank" rel="noopener">JSON and Go</a><br>json 包是内置支持的，文档位置：<a href="https://go-zh.org/pkg/encoding/json/" target="_blank" rel="noopener">https://go-zh.org/pkg/encoding/json/</a></p>
+<h2 id="3-复杂命令行的处理"><a href="#3-复杂命令行的处理" class="headerlink" title="3. 复杂命令行的处理"></a>3. 复杂命令行的处理</h2><p>不要轻易“发明轮子”。为了实现POSIX/GNU-风格参数处理，-flags，包括命令完成等支持，程序员们开发了无数第三方包，这些包可以在<a href="https://godoc.org/" target="_blank" rel="noopener">godoc</a>找到。  </p>
+<ul>
+<li>pflag 包： <a href="https://godoc.org/github.com/spf13/pflag" target="_blank" rel="noopener">https://godoc.org/github.com/spf13/pflag</a></li>
+<li>cobra 包： <a href="https://godoc.org/github.com/spf13/cobra" target="_blank" rel="noopener">https://godoc.org/github.com/spf13/cobra</a></li>
+<li>goptions 包： <a href="https://godoc.org/github.com/voxelbrain/goptions" target="_blank" rel="noopener">https://godoc.org/github.com/voxelbrain/goptions</a></li>
+<li>docker command 包：<a href="https://godoc.org/github.com/docker/cli/cli/command" target="_blank" rel="noopener">https://godoc.org/github.com/docker/cli/cli/command</a></li>
+<li>……<br><a href="https://www.xuebuyuan.com/1588520.html" target="_blank" rel="noopener">go dead project</a>非常有用<br>这里我们选择cobar这个工具  <h2 id="4-安装并使用cobra"><a href="#4-安装并使用cobra" class="headerlink" title="4. 安装并使用cobra"></a>4. 安装并使用cobra</h2><h3 id="cobra安装"><a href="#cobra安装" class="headerlink" title="cobra安装"></a>cobra安装</h3>在<code>$GOPATH/src/golang.org/x</code>目录下用<code>git clone</code>下载<code>sys</code>和<code>text</code>项目，然后使用<code>go get -v github.com/spf13/cobra/cobra</code><br>下载成功后会在<code>$GOPATH/bin</code>目录下出现cobra可执行程序<br>执行cobra，如图所示，即为成功安装<br><img src="https://www.z4a.net/images/2019/10/17/57222d9735dcbee9f.png" alt>  </li>
+</ul>
+<h3 id="cobra-init"><a href="#cobra-init" class="headerlink" title="cobra init"></a>cobra init</h3><p>参考<a href="https://github.com/spf13/cobra#overview" target="_blank" rel="noopener">官方文档</a><br>生成agenda项目<br>这里之前老是不可，然后点进去官方文档里的<a href="https://github.com/spf13/cobra/blob/master/cobra/README.md" target="_blank" rel="noopener">Using Cobra Generator</a>,里面有详细的解释说明<br><code>./cobra init --pkg-name github.com/spf13/agenda</code><br>cobra init [app]命令创建初始应用程序代码，用正确的结构填充程序，并自动将LICENSE应用到程序中。<br>在cobra应用程序中，通常main.go是暴露的文件，用它来初始化cobra，仅仅调用executecmd包的功能</p>
+<h3 id="cobra-add"><a href="#cobra-add" class="headerlink" title="cobra add"></a>cobra add</h3><p>添加agenda工具命令（只完成注册和登陆两个功能）<br><code>./cobra add register</code><br><code>./cobra add login</code>  </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"github.com/spf13/agenda/cmd"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  cmd.Execute()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">agenda</span><br><span class="line">  |─ cmd</span><br><span class="line">  |  |─ register.go</span><br><span class="line">  |  |─ login.go</span><br><span class="line">  |  └─ root.go</span><br><span class="line">  |─ entity</span><br><span class="line">  |  |─ fileIO.go</span><br><span class="line">  |  |─ Storage.go</span><br><span class="line">  |  |─ User.go</span><br><span class="line">  |─ files</span><br><span class="line">  |  |─ User.txt</span><br><span class="line">  |  └─ agenda.log</span><br><span class="line">  |─ service</span><br><span class="line">  |  └─ service.go </span><br><span class="line">  |─ LICENSE</span><br><span class="line">  |─ agenda.io</span><br><span class="line">  └─ main.go</span><br></pre></td></tr></table></figure>
+
+<p>（这里的agenda.o是后来手工移到这个文件夹的）<br>项目结构就是按照去年实训的时候设计的</p>
+<ul>
+<li><p>User.go：存储User数据结构和返回方法</p>
+</li>
+<li><p>fileIO.go：将User信息的文档形式和程序数据结构互相转化</p>
+</li>
+<li><p>Storage.go：注册数据结构</p>
+</li>
+<li><p>Service.go：被login.go和root.go调用，实现函数基础功能</p>
+</li>
+<li><p>register.go：用户注册添加的app</p>
+</li>
+<li><p>login.go：用户登陆添加的app  </p>
+<h1 id="Agenda程序开发"><a href="#Agenda程序开发" class="headerlink" title="Agenda程序开发"></a>Agenda程序开发</h1><h2 id="选项（Flag）"><a href="#选项（Flag）" class="headerlink" title="选项（Flag）"></a>选项（Flag）</h2><p>实际命令都有选项，分为持久和本地，持久例如kubectl的-n可以用在很多个二集命令下，本地命令选项则不会被继承到子命令。  </p>
+</li>
+<li><p>type也有Slice，Count Duration,IP,IPMask,IPNet之类的类型,Slice类型可以多个传入，直接获取就是一个切片，例如–master ip1 –master ip2  </p>
+</li>
+<li><p>类似–force这样的开关型选项，实际上用Bool类型即可，默认值设置为false，单独给选项不带值就是true，也可以手动传入false或者true  </p>
+</li>
+<li><p>MarkDeprecated告诉用户放弃这个标注位，应该使用新标志位MarkShorthandDeprecated是只放弃短的，长标志位依然可用。MarkHidden隐藏标志位</p>
+</li>
+<li><p>MarkFlagRequired(“region”)表示region是必须的选项，不设置下选项都是可选的</p>
+</li>
+</ul>
+<h2 id="日志服务"><a href="#日志服务" class="headerlink" title="日志服务"></a>日志服务</h2><p>使用<a href="https://go-zh.org/pkg/log/" target="_blank" rel="noopener">log包</a>记录日志  </p>
+<h2 id="正则表达式（识别合法邮箱和号码）"><a href="#正则表达式（识别合法邮箱和号码）" class="headerlink" title="正则表达式（识别合法邮箱和号码）"></a>正则表达式（识别合法邮箱和号码）</h2><p>导入regexp包，参考博客<a href="https://www.cnblogs.com/golove/p/3270918.html" target="_blank" rel="noopener">Golang-regexp包</a>  </p>
+<h2 id="部分代码"><a href="#部分代码" class="headerlink" title="部分代码"></a>部分代码</h2><h3 id="cmd-root-go"><a href="#cmd-root-go" class="headerlink" title="cmd/root.go"></a>cmd/root.go</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Copyright © 2019 NAME HERE &lt;EMAIL ADDRESS&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Licensed under the Apache License, Version 2.0 (the "License");</span></span><br><span class="line"><span class="comment">you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment">You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment">distributed under the License is distributed on an "AS IS" BASIS,</span></span><br><span class="line"><span class="comment">WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment">See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment">limitations under the License.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">package</span> cmd</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">  <span class="string">"fmt"</span></span><br><span class="line">  <span class="string">"os"</span></span><br><span class="line">  <span class="string">"github.com/spf13/cobra"</span></span><br><span class="line"></span><br><span class="line">  homedir <span class="string">"github.com/mitchellh/go-homedir"</span></span><br><span class="line">  <span class="string">"github.com/spf13/viper"</span></span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> cfgFile <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// rootCmd represents the base command when called without any subcommands</span></span><br><span class="line"><span class="keyword">var</span> rootCmd = &amp;cobra.Command&#123;</span><br><span class="line">  Use:   <span class="string">"agenda"</span>,</span><br><span class="line">  Short: <span class="string">"Agenda is an application that manage the information of workers and meetings"</span>,</span><br><span class="line">  Long: <span class="string">`This one just finish the function of user registering and logging in`</span>,</span><br><span class="line">  <span class="comment">// Uncomment the following line if your bare application</span></span><br><span class="line">  <span class="comment">// has an action associated with it:</span></span><br><span class="line">  <span class="comment">//	Run: func(cmd *cobra.Command, args []string) &#123; &#125;,</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Execute adds all child commands to the root command and sets flags appropriately.</span></span><br><span class="line"><span class="comment">// This is called by main.main(). It only needs to happen once to the rootCmd.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Execute</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">if</span> err := rootCmd.Execute(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(err)</span><br><span class="line">    os.Exit(<span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">  cobra.OnInitialize(initConfig)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Here you will define your flags and configuration settings.</span></span><br><span class="line">  <span class="comment">// Cobra supports persistent flags, which, if defined here,</span></span><br><span class="line">  <span class="comment">// will be global for your application.</span></span><br><span class="line"></span><br><span class="line">  rootCmd.PersistentFlags().StringVar(&amp;cfgFile, <span class="string">"config"</span>, <span class="string">""</span>, <span class="string">"config file (default is $HOME/.agenda.yaml)"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">// Cobra also supports local flags, which will only run</span></span><br><span class="line">  <span class="comment">// when this action is called directly.</span></span><br><span class="line">  rootCmd.Flags().BoolP(<span class="string">"toggle"</span>, <span class="string">"t"</span>, <span class="literal">false</span>, <span class="string">"Help message for toggle"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// initConfig reads in config file and ENV variables if set.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">initConfig</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">if</span> cfgFile != <span class="string">""</span> &#123;</span><br><span class="line">    <span class="comment">// Use config file from the flag.</span></span><br><span class="line">    viper.SetConfigFile(cfgFile)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Find home directory.</span></span><br><span class="line">    home, err := homedir.Dir()</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">      fmt.Println(err)</span><br><span class="line">      os.Exit(<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Search config in home directory with name ".agenda" (without extension).</span></span><br><span class="line">    viper.AddConfigPath(home)</span><br><span class="line">    viper.SetConfigName(<span class="string">".agenda"</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  viper.AutomaticEnv() <span class="comment">// read in environment variables that match</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// If a config file is found, read it in.</span></span><br><span class="line">  <span class="keyword">if</span> err := viper.ReadInConfig(); err == <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">"Using config file:"</span>, viper.ConfigFileUsed())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="register-go"><a href="#register-go" class="headerlink" title="register.go"></a>register.go</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Copyright © 2019 NAME HERE &lt;EMAIL ADDRESS&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Licensed under the Apache License, Version 2.0 (the "License");</span></span><br><span class="line"><span class="comment">you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment">You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment">distributed under the License is distributed on an "AS IS" BASIS,</span></span><br><span class="line"><span class="comment">WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment">See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment">limitations under the License.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">package</span> cmd</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/spf13/agenda/service"</span></span><br><span class="line">	<span class="string">"github.com/spf13/cobra"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// registerCmd represents the register command</span></span><br><span class="line"><span class="keyword">var</span> registerCmd = &amp;cobra.Command&#123;</span><br><span class="line">	Use:   <span class="string">"register -n [username] -p [password] -e [email] -t [phone]"</span>,</span><br><span class="line">	Short: <span class="string">"Register a new user"</span>,</span><br><span class="line">	Long:  <span class="string">`Input command model like: register -n User -p 123456(longer than 6) -e 123@qq.com -t 1**********`</span>,</span><br><span class="line">	Run: <span class="function"><span class="keyword">func</span><span class="params">(cmd *cobra.Command, args []<span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">		<span class="comment">// <span class="doctag">TODO:</span> Work your own magic here</span></span><br><span class="line">		u_name, _ := cmd.Flags().GetString(<span class="string">"name"</span>)</span><br><span class="line">		u_password, _ := cmd.Flags().GetString(<span class="string">"password"</span>)</span><br><span class="line">		u_email, _ := cmd.Flags().GetString(<span class="string">"email"</span>)</span><br><span class="line">		u_phone, _ := cmd.Flags().GetString(<span class="string">"phone"</span>)</span><br><span class="line"></span><br><span class="line">		service.RegisterUser(u_name, u_password, u_email, u_phone)</span><br><span class="line"></span><br><span class="line">	&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	rootCmd.AddCommand(registerCmd)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Here you will define your flags and configuration settings.</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Cobra supports Persistent Flags which will work for this command</span></span><br><span class="line">	<span class="comment">// and all subcommands, e.g.:</span></span><br><span class="line">	<span class="comment">// registerCmd.PersistentFlags().String("foo", "", "A help for foo")</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Cobra supports local flags which will only run when this command</span></span><br><span class="line">	<span class="comment">// is called directly, e.g.:</span></span><br><span class="line">	registerCmd.Flags().StringP(<span class="string">"name"</span>, <span class="string">"n"</span>, <span class="string">""</span>, <span class="string">"user name"</span>)</span><br><span class="line">	registerCmd.Flags().StringP(<span class="string">"password"</span>, <span class="string">"p"</span>, <span class="string">""</span>, <span class="string">"user password"</span>)</span><br><span class="line">	registerCmd.Flags().StringP(<span class="string">"email"</span>, <span class="string">"e"</span>, <span class="string">""</span>, <span class="string">"user email"</span>)</span><br><span class="line">	registerCmd.Flags().StringP(<span class="string">"phone"</span>, <span class="string">"t"</span>, <span class="string">""</span>, <span class="string">"user phone"</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>rootCmd为init的root.go定义的结构体，rootCmd.AddCommand(appCmd)这里字面意思可以得知command这个结构体生成对应的命令格式，可以用上一层次的命令方法AddCommand添加一个下一级别的命令  </p>
+<h3 id="login-go"><a href="#login-go" class="headerlink" title="login.go"></a>login.go</h3><pre><code class="go"><span class="comment">/*</span>
+<span class="comment">Copyright © 2019 NAME HERE &lt;EMAIL ADDRESS&gt;</span>
+<span class="comment"></span>
+<span class="comment">Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="comment">you may not use this file except in compliance with the License.</span>
+<span class="comment">You may obtain a copy of the License at</span>
+<span class="comment"></span>
+<span class="comment">    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="comment"></span>
+<span class="comment">Unless required by applicable law or agreed to in writing, software</span>
+<span class="comment">distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="comment">WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="comment">See the License for the specific language governing permissions and</span>
+<span class="comment">limitations under the License.</span>
+<span class="comment">*/</span>
+<span class="keyword">package</span> cmd
+
+<span class="keyword">import</span> (
+    <span class="string">"github.com/spf13/agenda/service"</span>
+
+    <span class="string">"github.com/spf13/cobra"</span>
+)
+
+<span class="comment">// loginCmd represents the login command</span>
+<span class="keyword">var</span> loginCmd = &amp;cobra.Command{
+    Use:   <span class="string">"log_in -n [username] -p [password]"</span>,
+    Short: <span class="string">"log in"</span>,
+    Long:  <span class="string">`Input command mode like : log_in -n User -p 123456`</span>,
+    Run: <span class="function"><span class="keyword">func</span><span class="params">(cmd *cobra.Command, args []<span class="keyword">string</span>)</span></span> {
+        <span class="comment">// <span class="doctag">TODO:</span> Work your own magic here</span>
+        u_name, _ := cmd.Flags().GetString(<span class="string">"name"</span>)
+        u_password, _ := cmd.Flags().GetString(<span class="string">"password"</span>)
+        service.Log_in(u_name, u_password)
+    },
+}
+
+<span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> {
+    rootCmd.AddCommand(loginCmd)
+
+    <span class="comment">// Here you will define your flags and configuration settings.</span>
+
+    <span class="comment">// Cobra supports Persistent Flags which will work for this command</span>
+    <span class="comment">// and all subcommands, e.g.:</span>
+    <span class="comment">// loginCmd.PersistentFlags().String("foo", "", "A help for foo")</span>
+
+    <span class="comment">// Cobra supports local flags which will only run when this command</span>
+    <span class="comment">// is called directly, e.g.:</span>
+    <span class="comment">// loginCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")</span>
+    loginCmd.Flags().StringP(<span class="string">"name"</span>, <span class="string">"n"</span>, <span class="string">""</span>, <span class="string">"user name"</span>)
+    loginCmd.Flags().StringP(<span class="string">"password"</span>, <span class="string">"p"</span>, <span class="string">""</span>, <span class="string">"user password"</span>)
+
+}
+</code></pre>
+<p>完整代码在<a href>Github</a></p>
+<h2 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h2><p><code>./agenda</code><br><img src="https://www.z4a.net/images/2019/10/17/137e614d97e11aeafb.png" alt><br><code>./agenda register -h</code><br><img src="https://www.z4a.net/images/2019/10/17/145f737d1a5a3113b4.png" alt><br>指令提示<br><img src="https://www.z4a.net/images/2019/10/17/7ac1cdf713a58b59c.png" alt><br><code>./agenda register -n -p -e -t</code><br><img src="https://www.z4a.net/images/2019/10/17/88ae6032f92793486.png" alt><br><code>./agenda log_in -h</code><br><img src="https://www.z4a.net/images/2019/10/17/9426b8502dab98fd8.png" alt><br><code>./agenda log_in -n -p</code><br>密码正确<br><img src="https://www.z4a.net/images/2019/10/17/105b4270fae0e29005.png" alt><br>密码错误<br><img src="https://www.z4a.net/images/2019/10/17/11bf4e2cee95d62da3.png" alt>  </p>
+<p>User.txt<br><img src="https://www.z4a.net/images/2019/10/17/15604aa020a8098797.png" alt><br>Agenda.log<br><img src="https://www.z4a.net/images/2019/10/17/12dfd5a6ccf2ba3c36.png" alt>  </p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/16/物理系统与碰撞/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>物理系统与碰撞</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">ZZ blog</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/person_1.jpg" alt="Rica Zhang"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Rica Zhang</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
