@@ -92,11 +92,12 @@
 <li>Storage.go：注册数据结构</li>
 <li>Service.go：被login.go和root.go调用，实现函数基础功能</li>
 <li>register.go：用户注册添加的app</li>
-<li>login.go：用户登陆添加的app  <h2 id="5-Go-online使用"><a href="#5-Go-online使用" class="headerlink" title="5. Go-online使用"></a>5. Go-online使用</h2>感谢群里喜欢提问的同学和回答问题的助教，让我一个小白通过看群消息知道了路径和依赖问题  <blockquote>
+<li>login.go：用户登陆添加的app  </li>
+</ul>
+<h2 id="5-Go-online使用"><a href="#5-Go-online使用" class="headerlink" title="5. Go-online使用"></a>5. Go-online使用</h2><p>感谢群里喜欢提问的同学和回答问题的助教，让我一个小白通过看群消息知道了路径和依赖问题  </p>
+<blockquote>
 <p>go只在$GOPATH/src目录开始找依赖包而gopath可以有多个，多个的话就用冒号分割，这时候pwd命令看当前目录，就在第一项的src/的子目录，按顺序查找，而go文档的话是没有提到相对路径这种说法的，所以所有包的查找都是用这种方式，比如有一个包在GOPATH/src/a/b/x目录，那么引用就是import a/b/x，不用修改GOPATH，只用在import的时候写好项目路径就可以了，通过pwd查看项目路径就可以了  </p>
 </blockquote>
-</li>
-</ul>
 <p>以上都是群里的话直接搬过来的，助教真的解释的很详细，加上好像有好心的大佬已经解决了我上面在虚拟机那里说的依赖问题，就只用<code>go get -v github.com/spf13/cobra/cobra</code>项目就可以跑起来了</p>
 <h1 id="Agenda程序开发"><a href="#Agenda程序开发" class="headerlink" title="Agenda程序开发"></a>Agenda程序开发</h1><h2 id="选项（Flag）"><a href="#选项（Flag）" class="headerlink" title="选项（Flag）"></a>选项（Flag）</h2><p>实际命令都有选项，分为持久和本地，持久例如kubectl的-n可以用在很多个二集命令下，本地命令选项则不会被继承到子命令。  </p>
 <ul>
