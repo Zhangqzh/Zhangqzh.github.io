@@ -59,7 +59,15 @@
     <div class="lx-entry padding">
       <div>
         <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>命令行实用程序并不是都象 cat、more、grep 是简单命令。go 项目管理程序，类似 java 项目管理 maven、Nodejs 项目管理程序 npm、git 命令行客户端、 docker 与 kubernetes 容器管理工具等等都是采用了较复杂的命令行。即一个实用程序同时支持多个子命令，每个子命令有各自独立的参数，命令之间可能存在共享的代码或逻辑，同时随着产品的发展，这些命令可能发生功能变化、添加新命令等。因此，符合 OCP 原则 的设计是至关重要的编程需求。  </p>
+<h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><p>目录：</p>
+<ul>
+<li>cobra用法解释</li>
+<li>Linux虚拟机里开发使用教程</li>
+<li>Go-online使用说明</li>
+<li>部分代码解释</li>
+<li>实验结果</li>
+</ul>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>命令行实用程序并不是都象 cat、more、grep 是简单命令。go 项目管理程序，类似 java 项目管理 maven、Nodejs 项目管理程序 npm、git 命令行客户端、 docker 与 kubernetes 容器管理工具等等都是采用了较复杂的命令行。即一个实用程序同时支持多个子命令，每个子命令有各自独立的参数，命令之间可能存在共享的代码或逻辑，同时随着产品的发展，这些命令可能发生功能变化、添加新命令等。因此，符合 OCP 原则 的设计是至关重要的编程需求。  </p>
 <h2 id="2-JSON序列化与反序列化"><a href="#2-JSON序列化与反序列化" class="headerlink" title="2. JSON序列化与反序列化"></a>2. JSON序列化与反序列化</h2><p>参考：<a href="https://blog.go-zh.org/json-and-go" target="_blank" rel="noopener">JSON and Go</a><br>json 包是内置支持的，文档位置：<a href="https://go-zh.org/pkg/encoding/json/" target="_blank" rel="noopener">https://go-zh.org/pkg/encoding/json/</a></p>
 <h2 id="3-复杂命令行的处理"><a href="#3-复杂命令行的处理" class="headerlink" title="3. 复杂命令行的处理"></a>3. 复杂命令行的处理</h2><p>不要轻易“发明轮子”。为了实现POSIX/GNU-风格参数处理，-flags，包括命令完成等支持，程序员们开发了无数第三方包，这些包可以在<a href="https://godoc.org/" target="_blank" rel="noopener">godoc</a>找到。  </p>
 <ul>
@@ -67,7 +75,7 @@
 <li>cobra 包： <a href="https://godoc.org/github.com/spf13/cobra" target="_blank" rel="noopener">https://godoc.org/github.com/spf13/cobra</a></li>
 <li>goptions 包： <a href="https://godoc.org/github.com/voxelbrain/goptions" target="_blank" rel="noopener">https://godoc.org/github.com/voxelbrain/goptions</a></li>
 <li>docker command 包：<a href="https://godoc.org/github.com/docker/cli/cli/command" target="_blank" rel="noopener">https://godoc.org/github.com/docker/cli/cli/command</a></li>
-<li>……<br><a href="https://www.xuebuyuan.com/1588520.html" target="_blank" rel="noopener">go dead project</a>非常有用<br>这里我们选择cobar这个工具  <h2 id="4-安装并使用cobra"><a href="#4-安装并使用cobra" class="headerlink" title="4. 安装并使用cobra"></a>4. 安装并使用cobra</h2><h3 id="cobra安装"><a href="#cobra安装" class="headerlink" title="cobra安装"></a>cobra安装</h3>在<code>$GOPATH/src/golang.org/x</code>目录下用<code>git clone</code>下载<code>sys</code>和<code>text</code>项目，然后使用<code>go get -v github.com/spf13/cobra/cobra</code><br>下载成功后会在<code>$GOPATH/bin</code>目录下出现cobra可执行程序<br>执行cobra，如图所示，即为成功安装<br><img src="https://www.z4a.net/images/2019/10/17/57222d9735dcbee9f.png" alt>  </li>
+<li>……<br><a href="https://www.xuebuyuan.com/1588520.html" target="_blank" rel="noopener">go dead project</a>非常有用<br>这里我们选择cobar这个工具  <h2 id="4-安装并使用cobra"><a href="#4-安装并使用cobra" class="headerlink" title="4. 安装并使用cobra"></a>4. 安装并使用cobra</h2>（在虚拟机里，我做的时候还不知道必须得在Go-online上提交）<h3 id="cobra安装"><a href="#cobra安装" class="headerlink" title="cobra安装"></a>cobra安装</h3>在<code>$GOPATH/src/golang.org/x</code>目录下用<code>git clone</code>下载<code>sys</code>和<code>text</code>项目，然后使用<code>go get -v github.com/spf13/cobra/cobra</code><br>下载成功后会在<code>$GOPATH/bin</code>目录下出现cobra可执行程序<br>执行cobra，如图所示，即为成功安装<br><img src="https://www.z4a.net/images/2019/10/17/57222d9735dcbee9f.png" alt>  </li>
 </ul>
 <h3 id="cobra-init"><a href="#cobra-init" class="headerlink" title="cobra init"></a>cobra init</h3><p>参考<a href="https://github.com/spf13/cobra#overview" target="_blank" rel="noopener">官方文档</a><br>生成agenda项目<br>这里之前老是不可，然后点进去官方文档里的<a href="https://github.com/spf13/cobra/blob/master/cobra/README.md" target="_blank" rel="noopener">Using Cobra Generator</a>,里面有详细的解释说明<br><code>./cobra init --pkg-name github.com/spf13/agenda</code><br>cobra init [app]命令创建初始应用程序代码，用正确的结构填充程序，并自动将LICENSE应用到程序中。<br>在cobra应用程序中，通常main.go是暴露的文件，用它来初始化cobra，仅仅调用executecmd包的功能</p>
 <h3 id="cobra-add"><a href="#cobra-add" class="headerlink" title="cobra add"></a>cobra add</h3><p>添加agenda工具命令（只完成注册和登陆两个功能）<br><code>./cobra add register</code><br><code>./cobra add login</code>  </p>
@@ -77,27 +85,23 @@
 
 <p>（这里的agenda.o是后来手工移到这个文件夹的）<br>项目结构就是按照去年实训的时候设计的</p>
 <ul>
-<li><p>User.go：存储User数据结构和返回方法</p>
+<li>User.go：存储User数据结构和返回方法</li>
+<li>fileIO.go：将User信息的文档形式和程序数据结构互相转化</li>
+<li>Storage.go：注册数据结构</li>
+<li>Service.go：被login.go和root.go调用，实现函数基础功能</li>
+<li>register.go：用户注册添加的app</li>
+<li>login.go：用户登陆添加的app  <h2 id="5-Go-online使用"><a href="#5-Go-online使用" class="headerlink" title="5. Go-online使用"></a>5. Go-online使用</h2>感谢群里喜欢提问的同学和回答问题的助教，让我一个小白通过看群消息知道了路径和依赖问题  <blockquote>
+<p>go只在$GOPATH/src目录开始找依赖包而gopath可以有多个，多个的话就用冒号分割，这时候pwd命令看当前目录，就在第一项的src/的子目录，按顺序查找，而go文档的话是没有提到相对路径这种说法的，所以所有包的查找都是用这种方式，比如有一个包在GOPATH/src/a/b/x目录，那么引用就是import a/b/x，不用修改GOPATH，只用在import的时候写好项目路径就可以了，通过pwd查看项目路径就可以了  </p>
+</blockquote>
 </li>
-<li><p>fileIO.go：将User信息的文档形式和程序数据结构互相转化</p>
-</li>
-<li><p>Storage.go：注册数据结构</p>
-</li>
-<li><p>Service.go：被login.go和root.go调用，实现函数基础功能</p>
-</li>
-<li><p>register.go：用户注册添加的app</p>
-</li>
-<li><p>login.go：用户登陆添加的app  </p>
+</ul>
+<p>以上都是群里的话直接搬过来的，助教真的解释的很详细，加上好像有好心的大佬已经解决了我上面在虚拟机那里说的依赖问题，就只用<code>go get -v github.com/spf13/cobra/cobra</code>项目就可以跑起来了</p>
 <h1 id="Agenda程序开发"><a href="#Agenda程序开发" class="headerlink" title="Agenda程序开发"></a>Agenda程序开发</h1><h2 id="选项（Flag）"><a href="#选项（Flag）" class="headerlink" title="选项（Flag）"></a>选项（Flag）</h2><p>实际命令都有选项，分为持久和本地，持久例如kubectl的-n可以用在很多个二集命令下，本地命令选项则不会被继承到子命令。  </p>
-</li>
-<li><p>type也有Slice，Count Duration,IP,IPMask,IPNet之类的类型,Slice类型可以多个传入，直接获取就是一个切片，例如–master ip1 –master ip2  </p>
-</li>
-<li><p>类似–force这样的开关型选项，实际上用Bool类型即可，默认值设置为false，单独给选项不带值就是true，也可以手动传入false或者true  </p>
-</li>
-<li><p>MarkDeprecated告诉用户放弃这个标注位，应该使用新标志位MarkShorthandDeprecated是只放弃短的，长标志位依然可用。MarkHidden隐藏标志位</p>
-</li>
-<li><p>MarkFlagRequired(“region”)表示region是必须的选项，不设置下选项都是可选的</p>
-</li>
+<ul>
+<li>type也有Slice，Count Duration,IP,IPMask,IPNet之类的类型,Slice类型可以多个传入，直接获取就是一个切片，例如–master ip1 –master ip2  </li>
+<li>类似–force这样的开关型选项，实际上用Bool类型即可，默认值设置为false，单独给选项不带值就是true，也可以手动传入false或者true  </li>
+<li>MarkDeprecated告诉用户放弃这个标注位，应该使用新标志位MarkShorthandDeprecated是只放弃短的，长标志位依然可用。MarkHidden隐藏标志位</li>
+<li>MarkFlagRequired(“region”)表示region是必须的选项，不设置下选项都是可选的</li>
 </ul>
 <h2 id="日志服务"><a href="#日志服务" class="headerlink" title="日志服务"></a>日志服务</h2><p>使用<a href="https://go-zh.org/pkg/log/" target="_blank" rel="noopener">log包</a>记录日志  </p>
 <h2 id="正则表达式（识别合法邮箱和号码）"><a href="#正则表达式（识别合法邮箱和号码）" class="headerlink" title="正则表达式（识别合法邮箱和号码）"></a>正则表达式（识别合法邮箱和号码）</h2><p>导入regexp包，参考博客<a href="https://www.cnblogs.com/golove/p/3270918.html" target="_blank" rel="noopener">Golang-regexp包</a>  </p>
@@ -159,9 +163,8 @@
 
 }
 </code></pre>
-<p>完整代码在<a href="https://github.com/Zhangqzh/Go-Learning/tree/master/hw7" target="_blank" rel="noopener">Github</a></p>
-<h2 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h2><p><code>./agenda</code><br><img src="https://www.z4a.net/images/2019/10/17/137e614d97e11aeafb.png" alt><br><code>./agenda register -h</code><br><img src="https://www.z4a.net/images/2019/10/17/145f737d1a5a3113b4.png" alt><br>指令提示<br><img src="https://www.z4a.net/images/2019/10/17/7ac1cdf713a58b59c.png" alt><br><code>./agenda register -n -p -e -t</code><br><img src="https://www.z4a.net/images/2019/10/17/88ae6032f92793486.png" alt><br><code>./agenda log_in -h</code><br><img src="https://www.z4a.net/images/2019/10/17/9426b8502dab98fd8.png" alt><br><code>./agenda log_in -n -p</code><br>密码正确<br><img src="https://www.z4a.net/images/2019/10/17/105b4270fae0e29005.png" alt><br>密码错误<br><img src="https://www.z4a.net/images/2019/10/17/11bf4e2cee95d62da3.png" alt>  </p>
-<p>User.txt<br><img src="https://www.z4a.net/images/2019/10/17/15604aa020a8098797.png" alt><br>Agenda.log<br><img src="https://www.z4a.net/images/2019/10/17/12dfd5a6ccf2ba3c36.png" alt>  </p>
+<h2 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h2><p><code>./agenda</code><br>虚拟机运行：<br><img src="https://www.z4a.net/images/2019/10/17/137e614d97e11aeafb.png" alt><br>Go-online运行:<br><img src="https://www.z4a.net/images/2019/10/26/_20191026204938.png" alt><br><code>./agenda register -h</code><br>虚拟机运行：<br><img src="https://www.z4a.net/images/2019/10/17/145f737d1a5a3113b4.png" alt><br>Go-online运行:<br><img src="https://www.z4a.net/images/2019/10/26/TIM20191026205218.png" alt><br>指令提示<br>虚拟机运行：<br><img src="https://www.z4a.net/images/2019/10/17/7ac1cdf713a58b59c.png" alt><br>Go-online运行:<br><img src="https://www.z4a.net/images/2019/10/26/TIM20191026205318.png" alt><br><code>./agenda register -n -p -e -t</code><br> 虚拟机运行：<br><img src="https://www.z4a.net/images/2019/10/17/88ae6032f92793486.png" alt><br>Go-online运行:<br><img src="https://www.z4a.net/images/2019/10/26/TIM20191026205520.png" alt><br><code>./agenda log_in -h</code><br>虚拟机运行：<br><img src="https://www.z4a.net/images/2019/10/17/9426b8502dab98fd8.png" alt><br> Go-online运行:<br> <img src="https://www.z4a.net/images/2019/10/26/TIM20191026205619.png" alt><br><code>./agenda log_in -n -p</code><br>密码正确<br>虚拟机运行：<br><img src="https://www.z4a.net/images/2019/10/17/105b4270fae0e29005.png" alt><br>Go-online运行:<br><img src="https://www.z4a.net/images/2019/10/26/TIM20191026205717.png" alt><br>密码错误<br>虚拟机运行：<br><img src="https://www.z4a.net/images/2019/10/17/11bf4e2cee95d62da3.png" alt><br>Go-online运行:    </p>
+<p>User.txt<br><img src="https://www.z4a.net/images/2019/10/17/15604aa020a8098797.png" alt><br><img src="https://www.z4a.net/images/2019/10/26/_20191026210936.png" alt><br>Agenda.log<br><img src="https://www.z4a.net/images/2019/10/17/12dfd5a6ccf2ba3c36.png" alt><br><img src="https://www.z4a.net/images/2019/10/26/_20191026212212.png" alt>  </p>
 
       </div>
     </div>
