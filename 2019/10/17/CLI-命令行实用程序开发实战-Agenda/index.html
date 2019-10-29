@@ -61,12 +61,15 @@
         <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><p>目录：</p>
 <ul>
+<li>项目地址</li>
 <li>cobra用法解释</li>
 <li>Linux虚拟机里开发使用教程</li>
 <li>Go-online使用说明</li>
 <li>部分代码解释</li>
 <li>实验结果</li>
 </ul>
+<h1 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h1><h2 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h2><p><a href="https://github.com/Zhangqzh/Go-Learning/tree/master/agenda" target="_blank" rel="noopener">Github项目地址</a></p>
+<h2 id="GoOnline"><a href="#GoOnline" class="headerlink" title="GoOnline"></a>GoOnline</h2><p><a href="http://www.go-online.org.cn:8080/share/bmq47m676kvs669u25eg?secret=false" target="_blank" rel="noopener">GoOnline分享链接</a></p>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>命令行实用程序并不是都象 cat、more、grep 是简单命令。go 项目管理程序，类似 java 项目管理 maven、Nodejs 项目管理程序 npm、git 命令行客户端、 docker 与 kubernetes 容器管理工具等等都是采用了较复杂的命令行。即一个实用程序同时支持多个子命令，每个子命令有各自独立的参数，命令之间可能存在共享的代码或逻辑，同时随着产品的发展，这些命令可能发生功能变化、添加新命令等。因此，符合 OCP 原则 的设计是至关重要的编程需求。  </p>
 <h2 id="2-JSON序列化与反序列化"><a href="#2-JSON序列化与反序列化" class="headerlink" title="2. JSON序列化与反序列化"></a>2. JSON序列化与反序列化</h2><p>参考：<a href="https://blog.go-zh.org/json-and-go" target="_blank" rel="noopener">JSON and Go</a><br>json 包是内置支持的，文档位置：<a href="https://go-zh.org/pkg/encoding/json/" target="_blank" rel="noopener">https://go-zh.org/pkg/encoding/json/</a></p>
 <h2 id="3-复杂命令行的处理"><a href="#3-复杂命令行的处理" class="headerlink" title="3. 复杂命令行的处理"></a>3. 复杂命令行的处理</h2><p>不要轻易“发明轮子”。为了实现POSIX/GNU-风格参数处理，-flags，包括命令完成等支持，程序员们开发了无数第三方包，这些包可以在<a href="https://godoc.org/" target="_blank" rel="noopener">godoc</a>找到。  </p>
