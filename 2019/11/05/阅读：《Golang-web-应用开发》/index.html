@@ -60,10 +60,7 @@
       <div>
         <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><h1 id="阅读：《Golang-web-应用开发》"><a href="#阅读：《Golang-web-应用开发》" class="headerlink" title="阅读：《Golang web 应用开发》"></a>阅读：《Golang web 应用开发》</h1><h2 id="一-Web工作方式"><a href="#一-Web工作方式" class="headerlink" title="一. Web工作方式"></a>一. Web工作方式</h2><h3 id="上网过程"><a href="#上网过程" class="headerlink" title="上网过程"></a>上网过程</h3><p>对于普通的上网过程，系统其实是这样做的：浏览器本身是一个客户端，当你输入URL的时候，首先浏览器会去请求DNS服务器，通过DNS获取相应的域名对应的IP，然后通过IP地址找到IP对应的服务器后，要求建立TCP连接，等浏览器发送完HTTP Request（请求）包后，服务器接收到请求包之后才开始处理请求包，服务器调用自身服务，返回HTTP Response（响应）包；客户端收到来自服务器的响应后开始渲染这个Response包里的主体（body），等收到全部的内容随后断开与该服务器之间的TCP连接。</p>
-<h3 id="URL和DNS解析"><a href="#URL和DNS解析" class="headerlink" title="URL和DNS解析"></a>URL和DNS解析</h3><p><strong>URL解析格式：</strong></p>
-<blockquote>
-<p>scheme://host[:port#]/path/…/[?query-string][#anchor]<br>scheme         指定底层使用的协议(例如：http, https, ftp)<br>host           HTTP服务器的IP地址或者域名<br>port#          HTTP服务器的默认端口是80，这种情况下端口号可以省略。如果使用了别的端口，必须指明，例如 <a href="http://www.cnblogs.com:8080/" target="_blank" rel="noopener">http://www.cnblogs.com:8080/</a><br>path           访问资源的路径<br>query-string   发送给http服务器的数据<br>anchor         锚</p>
-</blockquote>
+<h3 id="URL和DNS解析"><a href="#URL和DNS解析" class="headerlink" title="URL和DNS解析"></a>URL和DNS解析</h3><p><strong>URL解析格式：</strong><br>scheme         指定底层使用的协议(例如：http, https, ftp)<br>host           HTTP服务器的IP地址或者域名<br>port#          HTTP服务器的默认端口是80，这种情况下端口号可以省略。如果使用了别的端口，必须指明，例如 <a href="http://www.cnblogs.com:8080/" target="_blank" rel="noopener">http://www.cnblogs.com:8080/</a><br>path           访问资源的路径<br>query-string   发送给http服务器的数据<br>anchor         锚</p>
 <p><strong>DNS解析过程</strong><br><img src="https://www.z4a.net/images/2019/11/05/TIM20191105194546.png" alt><br>通过上面的步骤，我们最后获取的是IP地址，也就是浏览器最后发起请求的时候是基于IP来和服务器做信息交互的。</p>
 <h3 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h3><ul>
 <li>在HTTP中，客户端总是通过建立一个连接与发送一个HTTP请求来发起一个事务</li>
