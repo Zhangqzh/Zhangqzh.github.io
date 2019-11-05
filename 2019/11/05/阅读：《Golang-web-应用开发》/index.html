@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>阅读：《Golang web 应用开发》 | ZZ blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rica Zhang">
+  <meta name="keywords" content="ZZ, ZZ Blog, �ō���Ĳ���">
+  <meta name="description" content="Whatever will be, will be.">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: '-'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/person_1.jpg"></a></div>
+    <span>2019-11-05</span>
+    <h2>阅读：《Golang web 应用开发》</h2>
+    
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><h1 id="阅读：《Golang-web-应用开发》"><a href="#阅读：《Golang-web-应用开发》" class="headerlink" title="阅读：《Golang web 应用开发》"></a>阅读：《Golang web 应用开发》</h1><h2 id="一-Web工作方式"><a href="#一-Web工作方式" class="headerlink" title="一. Web工作方式"></a>一. Web工作方式</h2><h3 id="上网过程"><a href="#上网过程" class="headerlink" title="上网过程"></a>上网过程</h3><p>对于普通的上网过程，系统其实是这样做的：浏览器本身是一个客户端，当你输入URL的时候，首先浏览器会去请求DNS服务器，通过DNS获取相应的域名对应的IP，然后通过IP地址找到IP对应的服务器后，要求建立TCP连接，等浏览器发送完HTTP Request（请求）包后，服务器接收到请求包之后才开始处理请求包，服务器调用自身服务，返回HTTP Response（响应）包；客户端收到来自服务器的响应后开始渲染这个Response包里的主体（body），等收到全部的内容随后断开与该服务器之间的TCP连接。</p>
+<h3 id="URL和DNS解析"><a href="#URL和DNS解析" class="headerlink" title="URL和DNS解析"></a>URL和DNS解析</h3><p><strong>URL解析格式：</strong></p>
+<blockquote>
+<p>scheme://host[:port#]/path/…/[?query-string][#anchor]<br>scheme         指定底层使用的协议(例如：http, https, ftp)<br>host           HTTP服务器的IP地址或者域名<br>port#          HTTP服务器的默认端口是80，这种情况下端口号可以省略。如果使用了别的端口，必须指明，例如 <a href="http://www.cnblogs.com:8080/" target="_blank" rel="noopener">http://www.cnblogs.com:8080/</a><br>path           访问资源的路径<br>query-string   发送给http服务器的数据<br>anchor         锚</p>
+</blockquote>
+<p><strong>DNS解析过程</strong><br><img src="https://www.z4a.net/images/2019/11/05/TIM20191105194546.png" alt><br>通过上面的步骤，我们最后获取的是IP地址，也就是浏览器最后发起请求的时候是基于IP来和服务器做信息交互的。</p>
+<h3 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h3><ul>
+<li>在HTTP中，客户端总是通过建立一个连接与发送一个HTTP请求来发起一个事务</li>
+<li>HTTP协议是无状态的，同一个客户端的这次请求和上次请求是没有对应关系的，对HTTP服务器来说，它并不知道这两个请求是否来自同一个客户端。为了解决这个问题， Web程序引入了Cookie机制来维护连接的可持续状态。</li>
+</ul>
+<h3 id="HTTP请求包（浏览器信息）"><a href="#HTTP请求包（浏览器信息）" class="headerlink" title="HTTP请求包（浏览器信息）"></a>HTTP请求包（浏览器信息）</h3><h4 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h4><p>Request包分为3部分，第一部分叫Request line（请求行）, 第二部分叫Request header（请求头）,第三部分是body（主体）。header和body之间有个空行，请求包的例子所示:</p>
+<blockquote>
+<p>GET /domains/example/ HTTP/1.1        //请求行: 请求方法 请求URI HTTP协议/协议版本<br>Host：<a href="http://www.iana.org" target="_blank" rel="noopener">www.iana.org</a>                //服务端的主机名<br>User-Agent：Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4            //浏览器信息<br>Accept：text/html,application/xhtml+xml,application/xml;q=0.9,<em>/</em>;q=0.8    //客户端能接收的MIME<br>Accept-Encoding：gzip,deflate,sdch        //是否支持流压缩<br>Accept-Charset：UTF-8,*;q=0.5        //客户端字符编码集<br>//空行,用于分割请求头和消息体<br>//消息体,请求资源参数,例如POST传递的参数</p>
+</blockquote>
+<p>HTTP协议定义了很多与服务器交互的请求方法，最基本的有4种，分别是GET,POST,PUT,DELETE。一个URL地址用于描述一个网络上的资源，而HTTP中的GET, POST, PUT, DELETE就对应着对这个资源的查，增，改，删4个操作。我们最常见的就是GET和POST了。GET一般用于获取/查询资源信息，而POST一般用于更新资源信息。</p>
+<h3 id="HTTP响应包"><a href="#HTTP响应包" class="headerlink" title="HTTP响应包"></a>HTTP响应包</h3><h4 id="Respons"><a href="#Respons" class="headerlink" title="Respons"></a>Respons</h4><blockquote>
+<p>HTTP/1.1 200 OK                        //状态行<br>Server: nginx/1.0.8                    //服务器使用的WEB软件名及版本<br>Date:Date: Tue, 30 Oct 2012 04:14:25 GMT        //发送时间<br>Content-Type: text/html                //服务器发送信息的类型<br>Transfer-Encoding: chunked            //表示发送HTTP包是分段发的<br>Connection: keep-alive                //保持连接状态<br>Content-Length: 90                    //主体内容长度<br>//空行 用来分割消息头和主体<br>!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN”… //消息体</p>
+</blockquote>
+<h2 id="二-Go搭建一个Web服务器"><a href="#二-Go搭建一个Web服务器" class="headerlink" title="二. Go搭建一个Web服务器"></a>二. Go搭建一个Web服务器</h2><h3 id="http包建立Web服务器"><a href="#http包建立Web服务器" class="headerlink" title="http包建立Web服务器"></a>http包建立Web服务器</h3><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">	<span class="string">"strings"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sayhelloName</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	r.ParseForm()  <span class="comment">//解析参数，默认是不会解析的</span></span><br><span class="line">	fmt.Println(r.Form)  <span class="comment">//这些信息是输出到服务器端的打印信息</span></span><br><span class="line">	fmt.Println(<span class="string">"path"</span>, r.URL.Path)</span><br><span class="line">	fmt.Println(<span class="string">"scheme"</span>, r.URL.Scheme)</span><br><span class="line">	fmt.Println(r.Form[<span class="string">"url_long"</span>])</span><br><span class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> r.Form &#123;</span><br><span class="line">		fmt.Println(<span class="string">"key:"</span>, k)</span><br><span class="line">		fmt.Println(<span class="string">"val:"</span>, strings.Join(v, <span class="string">""</span>))</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Fprintf(w, <span class="string">"Hello astaxie!"</span>) <span class="comment">//这个写入到w的是输出到客户端的</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	http.HandleFunc(<span class="string">"/"</span>, sayhelloName) <span class="comment">//设置访问的路由</span></span><br><span class="line">	err := http.ListenAndServe(<span class="string">":9090"</span>, <span class="literal">nil</span>) <span class="comment">//设置监听的端口</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(<span class="string">"ListenAndServe: "</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果"></a>执行结果</h4><p><img src="https://www.z4a.net/images/2019/11/05/TIM20191105193526.png" alt><br><img src="https://www.z4a.net/images/2019/11/05/TIM20191105193511.png" alt></p>
+<h2 id="三-Go创建Web服务器的几种方式"><a href="#三-Go创建Web服务器的几种方式" class="headerlink" title="三. Go创建Web服务器的几种方式"></a>三. Go创建Web服务器的几种方式</h2><p><strong>http.HandleFunc函数</strong></p>
+<p>使用HandleFunc函数是http封装好的一个函数，可以直接使用，第一个参数是web请求路径，第二个参数是的func(writer http.ResponseWriter, request <em>http.Request)函数。<br>再使用http.ListenAndServe(“:9090”,nil)语句，监听9090端口，运行程序后。<br>使用<a href="http://localhost:9090，便会输出Hello" target="_blank" rel="noopener">http://localhost:9090，便会输出Hello</a> astaxie!<br>其中http.ResponseWriter代表对客户端的响应体，而http.Request代表客户端发送服务器的请求数据。<br>*</em>http.Handle函数**<br>跟HandleFunc一样，Handle也是http封装好的函数，第一个参数跟HandleFunc一样，而第二个参数则是必须是实现了http.Handler接口的类型，http.Handler在http包的定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Handler <span class="keyword">interface</span> &#123;</span><br><span class="line">	ServeHTTP(ResponseWriter, *Request)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>http.ServeMux</strong><br>无论是使用http.Handle还是http.HandleFunc函数，其实底层代码都是使用http.DefaultServeMux，DefaultServeMux的定义如下代码所示：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> DefaultServeMux = &amp;defaultServeMux</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> defaultServeMux ServeMux</span><br><span class="line"><span class="keyword">type</span> Controller <span class="keyword">struct</span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c Controller)</span><span class="title">ServeHTTP</span><span class="params">(writer http.ResponseWriter, request *http.Request)</span></span>&#123;</span><br><span class="line">    writer.Write([]<span class="keyword">byte</span>(<span class="string">"hello,1"</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">(writer http.ResponseWriter, request *http.Request)</span></span> &#123;</span><br><span class="line">    writer.Write([]<span class="keyword">byte</span>(<span class="string">"hello,2"</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    mux := &amp;http.ServeMux&#123;&#125;</span><br><span class="line">    mux.HandleFunc(<span class="string">"/hello1"</span>,hello)</span><br><span class="line">    mux.Handle(<span class="string">"/hello2"</span>,http.HandlerFunc(hello))</span><br><span class="line">    mux.Handle(<span class="string">"/hello3"</span>,&amp;Controller&#123;&#125;)</span><br><span class="line"></span><br><span class="line">    log.Fatal(http.ListenAndServe(<span class="string">":8080"</span>,mux))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>http.Server</strong><br>http.Server是http包中对web更加底层的支持，我们前面使用的方法，都是对http.Server的封装而已，如果直接使用http.Server，则可以自定义更多的参数，如果连接超时等参数，因此我们下面直接使用http.Server开发Web服务。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/10/29/智能巡逻兵/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>智能巡逻兵</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">ZZ blog</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/person_1.jpg" alt="Rica Zhang"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Rica Zhang</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
