@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>cloudgo | ZZ blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rica Zhang">
+  <meta name="keywords" content="ZZ, ZZ Blog, �ō���Ĳ���">
+  <meta name="description" content="Whatever will be, will be.">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: '-'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/person_1.jpg"></a></div>
+    <span>2019-11-11</span>
+    <h2>cloudgo</h2>
+    
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><h1 id="项目地址："><a href="#项目地址：" class="headerlink" title="项目地址："></a>项目地址：</h1><p><a href>GoOnline</a><br><a href="https://github.com/Zhangqzh/Go-Learning/tree/master/hw9" target="_blank" rel="noopener">Github</a>  </p>
+<h1 id="项目概述"><a href="#项目概述" class="headerlink" title="项目概述"></a>项目概述</h1><p>开发简单 web 服务程序 cloudgo，了解 web 服务器工作原理。</p>
+<h2 id="任务目标"><a href="#任务目标" class="headerlink" title="任务目标"></a>任务目标</h2><ol>
+<li>熟悉 go 服务器工作原理  </li>
+<li>基于现有 web 库，编写一个简单 web 应用类似 cloudgo。  </li>
+<li>使用 curl 工具访问 web 程序  </li>
+<li>对 web 执行压力测试  <h2 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h2>课件：<a href="http://blog.csdn.net/pmlpml/article/details/78404838" target="_blank" rel="noopener">http://blog.csdn.net/pmlpml/article/details/78404838</a><h1 id="任务要求"><a href="#任务要求" class="headerlink" title="任务要求"></a>任务要求</h1><h2 id="基本要求"><a href="#基本要求" class="headerlink" title="基本要求"></a>基本要求</h2></li>
+<li>编程 web 服务程序 类似 cloudgo 应用。<ul>
+<li>要求有详细的注释</li>
+<li>是否使用框架、选哪个框架自己决定 请在 README.md 说明你决策的依据</li>
+</ul>
+</li>
+<li>使用 curl 测试，将测试结果写入 README.md</li>
+<li>使用 ab 测试，将测试结果写入 README.md。并解释重要参数。</li>
+</ol>
+<h1 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h1><h2 id="代码及注释"><a href="#代码及注释" class="headerlink" title="代码及注释"></a>代码及注释</h2><h3 id="servce-go"><a href="#servce-go" class="headerlink" title="servce.go"></a>servce.go</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> service</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/codegangsta/martini"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewServer</span><span class="params">(port <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	r := martini.Classic()</span><br><span class="line">	<span class="comment">//提交请求的处理</span></span><br><span class="line">	r.Get(<span class="string">"/"</span>, <span class="function"><span class="keyword">func</span><span class="params">(params martini.Params)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Hello world"</span></span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	r.RunOnAddr(<span class="string">":"</span> + port)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="main-go"><a href="#main-go" class="headerlink" title="main.go"></a>main.go</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line"></span><br><span class="line">	flag <span class="string">"github.com/spf13/pflag"</span></span><br><span class="line">	<span class="string">"github.com/user/hw9/service"</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">//默认监听端口</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	PORT <span class="keyword">string</span> = <span class="string">"8080"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	port := os.Getenv(<span class="string">"PORT"</span>)</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(port) == <span class="number">0</span> &#123;</span><br><span class="line">		port = PORT</span><br><span class="line">	&#125;</span><br><span class="line"><span class="comment">//命令行输入监听端口，绑定、解析端口</span></span><br><span class="line">	pPort := flag.StringP(<span class="string">"port"</span>, <span class="string">"p"</span>, PORT, <span class="string">"PORT for httpd listening"</span>)</span><br><span class="line">	flag.Parse()</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(*pPort) != <span class="number">0</span> &#123;</span><br><span class="line">		port = *pPort</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//启动服务器</span></span><br><span class="line">	service.NewServer(port)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用框架说明"><a href="#使用框架说明" class="headerlink" title="使用框架说明"></a>使用框架说明</h2><h3 id="net-http"><a href="#net-http" class="headerlink" title="net/http"></a>net/http</h3><p>Go 语言中处理 HTTP 请求主要跟两个东西相关：ServeMux 和 Handler。</p>
+<p>ServrMux 本质上是一个 HTTP 请求路由器（或者叫多路复用器，Multiplexor）。它把收到的请求与一组预先定义的 URL 路径列表做对比，然后在匹配到路径的时候调用关联的处理器（Handler）。</p>
+<p>处理器（Handler）负责输出HTTP响应的头和正文。任何满足了http.Handler接口的对象都可作为一个处理器。通俗的说，对象只要有个如下签名的ServeHTTP方法即可：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ServeHTTP(http.ResponseWriter, *http.Request)</span><br></pre></td></tr></table></figure>
+
+<p>包http提供HTTP客户端和服务器实现<br>Get，Head，Post和PostForm发出HTTP（或HTTPS）请求  完成后，客户端必须关闭相应主体</p>
+<h3 id="Martini"><a href="#Martini" class="headerlink" title="Martini"></a>Martini</h3><p>Martini是一个强大为了编写模块化Web应用而生的GO语言框架.  </p>
+<h4 id="功能列表："><a href="#功能列表：" class="headerlink" title="功能列表："></a>功能列表：</h4><ul>
+<li>使用极其简单.</li>
+<li>无侵入式的设计.</li>
+<li>很好的与其他的Go语言包协同使用.</li>
+<li>超赞的路径匹配和路由.</li>
+<li>模块化的设计 - 容易插入功能件，也容易将其拔出来.</li>
+<li>已有很多的中间件可以直接使用.</li>
+<li>框架内已拥有很好的开箱即用的功能支持.</li>
+<li>完全兼容<a href="https://godoc.org/net/http#HandlerFunc" target="_blank" rel="noopener">http.HandlerFunc</a>接口.<br>参考链接：<a href="https://github.com/go-martini/martini/blob/master/translations/README_zh_cn.md" target="_blank" rel="noopener">Martini</a><br>martini 是新锐的框架，只是一个微型框架，只带有简单的核心，路由功能和依赖注入容器inject。但目前我们也不需要自己写依赖什么的，也不用和数据库结合使用所以还是选择简单的。<h2 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h2><h3 id="运行测试"><a href="#运行测试" class="headerlink" title="运行测试"></a>运行测试</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go run main.go -p 9000</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><img src="https://www.z4a.net/images/2019/11/11/TIM20191111152326.png" alt><br>监听端口为9000，在浏览器中输入<code>http://localhost:9000</code>可以看到hello world  </p>
+<p><img src="https://www.z4a.net/images/2019/11/11/TIM20191111151912.png" alt>  </p>
+<h3 id="curl测试"><a href="#curl测试" class="headerlink" title="curl测试"></a>curl测试</h3><p><code>curl -v http://localhohst:9000</code><br><img src="https://www.z4a.net/images/2019/11/11/TIM20191111152017.png" alt></p>
+<h3 id="ab测试"><a href="#ab测试" class="headerlink" title="ab测试"></a>ab测试</h3><p>安装Apache web 压力测试程序<br><code>yum -y install httpd-tools</code><br><code>ab -n 1000 -c 100 http://localhost:9000</code><br><img src="https://www.z4a.net/images/2019/11/11/TIM20191111152046.png" alt><br>命令行参数：</p>
+<ul>
+<li>-n：执行的请求数量</li>
+<li>-c: 并发请求个数</li>
+<li>-t：测试所进行的最大秒数</li>
+<li>-p：包含了需要POST的数据的文件</li>
+<li>-T：POST数据所使用的Content-type头信息</li>
+<li>-k：启用HTTP KeepAlive功能，即在一个HTTP会话中执行多个请求，默认时，不启用KeepAlive功能  </li>
+</ul>
+<p>结果参数：</p>
+<ul>
+<li>Server Software: 服务器软件版本  </li>
+<li>Server Hostname: 请求的URL  </li>
+<li>Server Port: 请求的端口号  </li>
+<li>Document Path: 请求的服务器的路径  </li>
+<li>Document Length: 页面长度 单位是字节  </li>
+<li>Concurrency Level: 并发数  </li>
+<li>Time taken for tests: 一共使用了的时间  </li>
+<li>Complete requests: 总共请求的次数  </li>
+<li>Failed requests: 失败的请求次数  </li>
+<li>Total transferred: 总共传输的字节数 http头信息  </li>
+<li>HTML transferred: 实际页面传递的字节数  </li>
+<li>Requests per second: 每秒多少个请求  </li>
+<li>Time per request: 平均每个用户等待多长时间  </li>
+<li>Time per request: 服务器平均用多长时间处理  </li>
+<li>Transfer rate: 传输速率  </li>
+<li>Connection Times: 传输时间统计  </li>
+<li>Percentage of the requests served within a certain time: 确定时间内服务请求占总数的百分比  </li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/11/09/Vi-Java-Ant-Junit的自学报告/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Vi,Java,Ant,Junit的自学报告</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">ZZ blog</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/person_1.jpg" alt="Rica Zhang"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Rica Zhang</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
