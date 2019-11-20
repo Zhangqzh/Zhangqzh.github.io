@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>博客网站REST API设计 | ZZ blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rica Zhang">
+  <meta name="keywords" content="ZZ, ZZ Blog, �ō���Ĳ���">
+  <meta name="description" content="Whatever will be, will be.">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: '-'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/person_1.jpg"></a></div>
+    <span>2019-11-20</span>
+    <h2>博客网站REST API设计</h2>
+    
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><p><strong>主要功能：</strong></p>
+<ul>
+<li><a href="#sign">用户注册</a></li>
+<li><a href="#login">用户登录</a></li>
+<li><a href="#getca">获取分类列表</a></li>
+<li><a href="#createca">创建分类列表</a></li>
+<li><a href="#updateca">更新分类列表</a></li>
+<li><a href="#deleteca">删除分类</a></li>
+<li><a href="#getar">获取分类内文章</a></li>
+<li><a href="#geta">获取某个文章</a></li>
+<li><a href="#createa">创建文章</a></li>
+<li><a href="#updatea">更新文章</a></li>
+<li><a href="#deletea">删除文章</a></li>
+<li><a href="#getc">获取评论</a></li>
+<li><a href="#pc">发表评论</a></li>
+</ul>
+<h2 id="用户注册"><a href="#用户注册" class="headerlink" title="用户注册"></a><span id="sign">用户注册</span></h2><h3 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST /api/v1/users</span><br></pre></td></tr></table></figure>
+
+<h3 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h3><table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>username</td>
+<td>string</td>
+<td>name of the signing user</td>
+</tr>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>password</td>
+</tr>
+<tr>
+<td>captchaID</td>
+<td>string</td>
+<td>ID of the captcha</td>
+</tr>
+<tr>
+<td>captchaCode</td>
+<td>string</td>
+<td>Code of the identifaction</td>
+</tr>
+</tbody></table>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="string">"username"</span>: <span class="string">"Zhangqzh"</span></span><br><span class="line">	<span class="string">"password"</span>: <span class="string">"Zhangqzh"</span>,</span><br><span class="line">	<span class="string">"captcha_id"</span>: <span class="string">"You have got a captcha ID"</span>,</span><br><span class="line">	<span class="string">"captcha_code"</span>: <span class="string">"Response"</span>,</span><br><span class="line">	<span class="string">"created_at"</span>: <span class="string">"2019-11-20T00:00:00Z"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Response"><a href="#Response" class="headerlink" title="Response"></a>Response</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Status: 201 Created</span><br><span class="line"></span><br><span class="line">Location: /api/v1/users</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"id"</span>: <span class="number">1</span></span><br><span class="line">  <span class="string">"user_name"</span>: <span class="string">"Zhangqzh"</span>,</span><br><span class="line">  <span class="string">"created_at"</span>: <span class="string">"2019-11-20T00:00:00Z"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="用户登陆"><a href="#用户登陆" class="headerlink" title="用户登陆"></a><span id="login">用户登陆</span></h2><h3 id="Request-1"><a href="#Request-1" class="headerlink" title="Request"></a>Request</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST /api/v1/users/login</span><br></pre></td></tr></table></figure>
+
+<h3 id="Input-1"><a href="#Input-1" class="headerlink" title="Input"></a>Input</h3><table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>username</td>
+<td>string</td>
+<td>name of the signing user</td>
+</tr>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>password</td>
+</tr>
+<tr>
+<td>captchaID</td>
+<td>string</td>
+<td>ID of the captcha</td>
+</tr>
+<tr>
+<td>captchaCode</td>
+<td>string</td>
+<td>Code of the identifaction</td>
+</tr>
+</tbody></table>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="string">"username"</span>: <span class="string">"Zhangqzh"</span></span><br><span class="line">	<span class="string">"password"</span>: <span class="string">"Zhangqzh"</span>,</span><br><span class="line">	<span class="string">"captcha_id"</span>: <span class="string">"You have got a captcha ID"</span>,</span><br><span class="line">	<span class="string">"captcha_code"</span>: <span class="string">"Response"</span>,</span><br><span class="line">	<span class="string">"created_at"</span>: <span class="string">"2019-11-20T00:00:00Z"</span></span><br><span class="line">	<span class="string">"updated_at"</span>: <span class="string">"2019-11-20T01:00:00Z"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Response-1"><a href="#Response-1" class="headerlink" title="Response"></a>Response</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Status: 201 OK</span><br><span class="line"></span><br><span class="line">Location: /api/v1/users</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="string">"access_token"</span>: <span class="string">"token..."</span>,</span><br><span class="line">	<span class="string">"expires_in"</span>: <span class="number">3600</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Failed-login-limit"><a href="#Failed-login-limit" class="headerlink" title="Failed login limit"></a>Failed login limit</h3><p>验证无效的凭据将返回401未经授权:<br><code>curl -i https://api.blog.com  -u foo:bar</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.1</span> <span class="number">401</span> Unauthorized</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"message"</span>: <span class="string">"Bad credentials"</span>,</span><br><span class="line">  <span class="string">"documentation_url"</span>: <span class="string">"https://developer.blog.com/v3"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在短时间内检测到几个证书无效的请求后，API将暂时拒绝该用户的所有身份验证尝试(包括有效证书)，403禁止<br><code>curl -i https://api.blog.com -u valid_username:valid_password</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.1</span> <span class="number">403</span> Forbidden</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"message"</span>: <span class="string">"Maximum number of login attempts exceeded. Please try again later."</span>,</span><br><span class="line">  <span class="string">"documentation_url"</span>: <span class="string">"https://developer.blog.com/v3"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取分类列表"><a href="#获取分类列表" class="headerlink" title="获取分类列表"></a><span id="getca">获取分类列表</span></h2><h3 id="Request-2"><a href="#Request-2" class="headerlink" title="Request"></a>Request</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /api/v1/categories</span><br></pre></td></tr></table></figure>
+
+<h3 id="Input-2"><a href="#Input-2" class="headerlink" title="Input"></a>Input</h3><table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>page</td>
+<td>number</td>
+<td>page number</td>
+</tr>
+<tr>
+<td>size</td>
+<td>number</td>
+<td>size of page</td>
+</tr>
+<tr>
+<td>### Response</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Status: 200 OK</span><br><span class="line">Location: /api/v1/categories</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> <span class="string">"categories"</span>[</span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">"id"</span>: <span class="string">"0"</span>, </span><br><span class="line">	<span class="string">"node_id"</span>: <span class="string">"MDEwOlJlcG9zaXRvcnkxOTE0MzIzMjE="</span>,</span><br><span class="line">    <span class="string">"category_name"</span>: <span class="string">"Go语言学习"</span>, </span><br><span class="line">    <span class="string">"article_count"</span>: <span class="number">10</span> </span><br><span class="line">&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建分类列表"><a href="#创建分类列表" class="headerlink" title="创建分类列表"></a><span id="createca">创建分类列表</span></h2><h3 id="Request-3"><a href="#Request-3" class="headerlink" title="Request"></a>Request</h3><p><code>POST /api/v1/categories</code></p>
+<h3 id="Input-3"><a href="#Input-3" class="headerlink" title="Input"></a>Input</h3><table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>name</td>
+<td>strinf</td>
+<td>name of category</td>
+</tr>
+<tr>
+<td>{</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>“name”: “3D unity”</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>### Response</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Status: 201 Created</span><br><span class="line">Location: /api/v1/categories</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"id"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"3D unity"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：必须添加权限验证,否则返回<code>401 Unauthorized</code></p>
+<h2 id="更新分类列表"><a href="#更新分类列表" class="headerlink" title="更新分类列表"></a><span id="updateca">更新分类列表</span></h2><h3 id="Request-4"><a href="#Request-4" class="headerlink" title="Request"></a>Request</h3><p><code>PUT /api/v1/categories/:category_id</code></p>
+<h3 id="Input-4"><a href="#Input-4" class="headerlink" title="Input"></a>Input</h3><table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>category_name</td>
+<td>string</td>
+<td>name of category</td>
+</tr>
+<tr>
+<td><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"3D unity"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="Response-2"><a href="#Response-2" class="headerlink" title="Response"></a>Response</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Status: 200 OK</span><br><span class="line">Location: /api/v1/categories/0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"id"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"3D unity"</span></span><br><span class="line">    <span class="string">"message"</span>: <span class="string">"update from "</span>,</span><br><span class="line">    <span class="string">"content"</span>: <span class="string">"Y3JlYXRlIGZpbGUgZnJvbSBJTlNPTU5JQQoKSXQncyB1cGRhdGVkISEhCgpJdCdzIHVwZGF0ZWQgYWdhaW4hIQ=="</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：必须添加权限验证,否则返回<code>401 Unauthorized</code></p>
+<h2 id="删除分类"><a href="#删除分类" class="headerlink" title="删除分类"></a><span id="deleteca">删除分类</span></h2><h3 id="Request-5"><a href="#Request-5" class="headerlink" title="Request"></a>Request</h3><p><code>DELETE /api/v1/categories:category_id</code></p>
+<h3 id="Input-5"><a href="#Input-5" class="headerlink" title="Input"></a>Input</h3><table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>category_name</td>
+<td>string</td>
+<td>name of category</td>
+</tr>
+<tr>
+<td><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"3D unity"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="Response-3"><a href="#Response-3" class="headerlink" title="Response"></a>Response</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Status: 204 No Content</span><br><span class="line">Location: /api/v1/categories/0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"message"</span>: <span class="string">"delete a category"</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：必须添加权限验证,否则返回<code>401 Unauthorized</code></p>
+<h2 id="获取分类内的文章"><a href="#获取分类内的文章" class="headerlink" title="获取分类内的文章"></a><span id="getar">获取分类内的文章</span></h2><h3 id="Request-6"><a href="#Request-6" class="headerlink" title="Request"></a>Request</h3><p><code>GET /api/v1/categories/:category_id</code></p>
+<h3 id="Input-6"><a href="#Input-6" class="headerlink" title="Input"></a>Input</h3><table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>page</td>
+<td>number</td>
+<td>page number</td>
+</tr>
+<tr>
+<td>size</td>
+<td>number</td>
+<td>size of page</td>
+</tr>
+<tr>
+<td>### Response</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Status: 200 OK</span><br><span class="line">Location: /api/v1/categories/0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"category"</span>: <span class="string">"Go 语言学习"</span>,</span><br><span class="line">    <span class="string">"articles"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">"id"</span>: <span class="number">0</span>,</span><br><span class="line">            <span class="string">"title"</span>: <span class="string">"源码学习-net/http"</span>,</span><br><span class="line">            <span class="string">"created_at"</span>: <span class="string">"2019-11-11T00:00:00Z"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">"id"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="string">"title"</span>: <span class="string">"阅读《Golang web应用开发》"</span>,</span><br><span class="line">            <span class="string">"created_at"</span>: <span class="string">"2019-11-05T00:00:00Z"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取某个文章"><a href="#获取某个文章" class="headerlink" title="获取某个文章"></a><span id="geta">获取某个文章</span></h2><h3 id="Request-7"><a href="#Request-7" class="headerlink" title="Request"></a>Request</h3><p><code>GET /api/v1/articles/:article_id</code></p>
+<h3 id="Response-4"><a href="#Response-4" class="headerlink" title="Response"></a>Response</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Status: 200 OK</span><br><span class="line">Location: /api/v1/articles/0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"id"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"category_id"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"category_name"</span>: <span class="string">"Go 语言学习"</span>,</span><br><span class="line">    <span class="string">"article_title"</span>: <span class="string">"源码学习-net/http"</span>,</span><br><span class="line">    <span class="string">"article_content"</span>: <span class="string">"*****"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建新文章"><a href="#创建新文章" class="headerlink" title="创建新文章"></a><span id="createa">创建新文章</span></h2><h3 id="Request-8"><a href="#Request-8" class="headerlink" title="Request"></a>Request</h3><p><code>POST /api/v1/articles</code></p>
+<h3 id="Input-7"><a href="#Input-7" class="headerlink" title="Input"></a>Input</h3><table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>catagory_id</td>
+<td>number</td>
+<td>id of category</td>
+</tr>
+<tr>
+<td>article_title</td>
+<td>string</td>
+<td>title of article</td>
+</tr>
+<tr>
+<td>content</td>
+<td>string</td>
+<td>content of article</td>
+</tr>
+<tr>
+<td><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"category_id"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"article_id"</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">"title"</span>: <span class="string">"博客网站REST API设计"</span>,</span><br><span class="line">    <span class="string">"content"</span>: <span class="string">"*****"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="Response-5"><a href="#Response-5" class="headerlink" title="Response"></a>Response</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Status: 201 Created</span><br><span class="line">Location: /api/v1/articles</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"categoryId"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"article_id"</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">"title"</span>: <span class="string">"博客网站REST API设计"</span>,</span><br><span class="line">    <span class="string">"content"</span>: <span class="string">"*****"</span></span><br><span class="line">    <span class="string">"size"</span> : <span class="string">"*****"</span></span><br><span class="line">    <span class="string">"created_at"</span>:<span class="string">"2019-11-20T00:00:00Z"</span></span><br><span class="line">    <span class="string">"url"</span>: <span class="string">"https://api.blog.com/repos/go-"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：1. 必须添加权限验证,否则返回<code>401 Unauthorized</code> 2. 数据传送格式选择JSON 3. 文件内容必须是把文件整体转为Base64字符串再存到JSON变量中</p>
+<h2 id="更新文章"><a href="#更新文章" class="headerlink" title="更新文章"></a><span id="updatea">更新文章</span></h2><h3 id="Request-9"><a href="#Request-9" class="headerlink" title="Request"></a>Request</h3><p><code>PUT /api/v1/articles/:article_id</code></p>
+<h3 id="Input-8"><a href="#Input-8" class="headerlink" title="Input"></a>Input</h3><table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>catagory_id</td>
+<td>number</td>
+<td>id of category</td>
+</tr>
+<tr>
+<td>article_title</td>
+<td>string</td>
+<td>title of article</td>
+</tr>
+<tr>
+<td>content</td>
+<td>string</td>
+<td>content of article</td>
+</tr>
+<tr>
+<td><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"category_id"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"article_id"</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">"title"</span>: <span class="string">"博客网站REST API设计"</span>,</span><br><span class="line">    <span class="string">"content"</span>: <span class="string">"*****"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="Response-6"><a href="#Response-6" class="headerlink" title="Response"></a>Response</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Status: 200 OK</span><br><span class="line">Location: /api/v1/articles/3</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"categoryId"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"article_id"</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">"title"</span>: <span class="string">"博客网站REST API设计"</span>,</span><br><span class="line">    <span class="string">"content"</span>: <span class="string">"*****"</span></span><br><span class="line">    <span class="string">"size"</span> : <span class="string">"*****"</span></span><br><span class="line">    <span class="string">"created_at"</span>:<span class="string">"2019-11-20T00:00:00Z"</span></span><br><span class="line">    <span class="string">"updated_at"</span>:<span class="string">"2019-11-20T14:00:00Z"</span></span><br><span class="line">    <span class="string">"url"</span>: <span class="string">"https://api.blog.com/repos/go-"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：必须添加权限验证,否则返回<code>401 Unauthorized</code><br>对文件格式有要求，如果没有按照格式把上传时的json必填项输入，则会出现<strong>422错误信息</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;   </span><br><span class="line">    <span class="string">"message"</span>: <span class="string">"Invalid request..."</span>,</span><br><span class="line">    <span class="string">"url"</span>: <span class="string">"https://api.blog.com/repos/go-"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除文章"><a href="#删除文章" class="headerlink" title="删除文章"></a><span id="deletea">删除文章</span></h2><h3 id="Request-10"><a href="#Request-10" class="headerlink" title="Request"></a>Request</h3><p><code>DELETE /api/v1/articles/:article_id</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;   </span><br><span class="line">    <span class="string">"message"</span>: <span class="string">"delete a file"</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Response-7"><a href="#Response-7" class="headerlink" title="Response"></a>Response</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Status: 204 No Content</span><br><span class="line">Location: /api/v1/articles/1</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;   </span><br><span class="line">    <span class="string">"content"</span>: <span class="literal">null</span>,</span><br><span class="line">    <span class="string">"url"</span>: <span class="string">"https://api.blog.com/repos/go-"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取文章的评论"><a href="#获取文章的评论" class="headerlink" title="获取文章的评论"></a><span id="getc">获取文章的评论</span></h2><h3 id="Request-11"><a href="#Request-11" class="headerlink" title="Request"></a>Request</h3><p><code>GET /api/v1/articles/:article_id/comments</code></p>
+<h3 id="Input-9"><a href="#Input-9" class="headerlink" title="Input"></a>Input</h3><table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>page</td>
+<td>number</td>
+<td>page number</td>
+</tr>
+<tr>
+<td>size</td>
+<td>number</td>
+<td>size of page</td>
+</tr>
+<tr>
+<td>### Response</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Status: 200 OK</span><br><span class="line">Location: /api/v1/articles/</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"id"</span>: <span class="string">"0"</span>,</span><br><span class="line">    <span class="string">"user"</span>: &#123;</span><br><span class="line">        <span class="string">"id"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">"username"</span>: <span class="string">"zz"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"content"</span>: <span class="string">"*****"</span>,</span><br><span class="line">    <span class="string">"created_at"</span>: <span class="string">"2019-11-20T00:00:00Z"</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加评论"><a href="#添加评论" class="headerlink" title="添加评论"></a><span id="pc">添加评论</span></h2><h3 id="Request-12"><a href="#Request-12" class="headerlink" title="Request"></a>Request</h3><p><code>POST /api/v1/articles/:article_id/comments</code></p>
+<h3 id="Input-10"><a href="#Input-10" class="headerlink" title="Input"></a>Input</h3><table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>content</td>
+<td>string</td>
+<td>content</td>
+</tr>
+<tr>
+<td><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"content"</span>: <span class="string">"*****"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="Response-8"><a href="#Response-8" class="headerlink" title="Response"></a>Response</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Status: 202 Accepted</span><br><span class="line">Location: /api/v1/articles/0/comments</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"id"</span>: <span class="string">"0"</span>,</span><br><span class="line">    <span class="string">"article_title"</span>: <span class="string">"博客网站REST API设计"</span></span><br><span class="line">    <span class="string">"content"</span>: <span class="string">"*****"</span>,</span><br><span class="line">    <span class="string">"createdAt"</span>: <span class="string">"2019-11-19T00:00:00Z"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/11/11/源码学习-net-http/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>源码学习-net/http</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">ZZ blog</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/person_1.jpg" alt="Rica Zhang"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Rica Zhang</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
