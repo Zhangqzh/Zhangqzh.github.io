@@ -129,8 +129,9 @@
 <h3 id="404-Not-Found"><a href="#404-Not-Found" class="headerlink" title="404 Not Found"></a>404 Not Found</h3><p>该状态码表示用户请求的资源不存在</p>
 <ul>
 <li>获取不存在的用户信息 (get /users/9999999）</li>
-<li>访问不存在的端点<h3 id="408-Request-Timeout"><a href="#408-Request-Timeout" class="headerlink" title="408 Request Timeout"></a>408 Request Timeout</h3>客户端请求超时时返回该状态码，需要注意的时，该状态码表示客户端请求超时，而不是在涉及第三方 API 调用超时时</li>
+<li>访问不存在的端点  </li>
 </ul>
+<h3 id="408-Request-Timeout"><a href="#408-Request-Timeout" class="headerlink" title="408 Request Timeout"></a>408 Request Timeout</h3><p>客户端请求超时时返回该状态码，需要注意的时，该状态码表示客户端请求超时，而不是在涉及第三方 API 调用超时时</p>
 <h3 id="429-Too-Many-Requests"><a href="#429-Too-Many-Requests" class="headerlink" title="429 Too Many Requests"></a>429 Too Many Requests</h3><p>该状态码表示用户请求次数超过允许范围。如 API设定为 60次/分钟，当用户在一分钟内请求次数超过 60 次后回该状态码。并且在响应首部中加上下列头部：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X-RateLimit-Limit: 10 请求速率（由应用设定，其单位一般为小时/分钟等，这里是 10次/5分钟）  </span><br><span class="line">X-RateLimit-Remaining: 0 当前剩余的请求数量</span><br><span class="line">X-RateLimit-Reset: 1529839462 重置时间</span><br><span class="line">Retry-After: 120 下一次访问应该等待的时间（秒）</span><br></pre></td></tr></table></figure>
 
