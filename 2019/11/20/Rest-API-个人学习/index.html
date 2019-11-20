@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Rest API 个人学习 | ZZ blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rica Zhang">
+  <meta name="keywords" content="ZZ, ZZ Blog, �ō���Ĳ���">
+  <meta name="description" content="Whatever will be, will be.">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'Lx',
+    version: '1.4.5',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: '-'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "endless-river",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300|Noto+Serif+SC&amp;display=swap">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+</head>
+<body>
+<div class="single">
+<div id="page">
+<div id="lx-aside" style="background-image: url(/images/page-cover.jpg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/person_1.jpg"></a></div>
+    <span>2019-11-20</span>
+    <h2>Rest API 个人学习</h2>
+    
+    </div>
+</div>
+</div>
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<h2 id="本文总阅读量次"><a href="#本文总阅读量次" class="headerlink" title="本文总阅读量次"></a><span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span></h2><h2 id="内容目录"><a href="#内容目录" class="headerlink" title="内容目录"></a>内容目录</h2><ul>
+<li>API Root URL</li>
+<li>EndPoints</li>
+<li>HTTP动词</li>
+<li>Response<ul>
+<li>200 ok</li>
+<li>201 Created</li>
+<li>202 Accepted</li>
+<li>204 No Content</li>
+<li>400 Bad Request</li>
+<li>401 Unauthorized</li>
+<li>403 Forbidden</li>
+<li>404 Not Found</li>
+<li>408 Request Timeout</li>
+<li>429 Too Many Request</li>
+</ul>
+</li>
+<li>参考<h2 id="API-Root-URL"><a href="#API-Root-URL" class="headerlink" title="API Root URL"></a>API Root URL</h2>API 的根入口点应尽可能保持足够简单，这里有两个常见的 URL 根例子：</li>
+<li>api.example.com/*</li>
+<li>example.com/api/*<blockquote>
+<p>如果你的应用很庞大或者你预计它将会变的很庞大，那 应该 将 API 放到子域下（api.example.com）。这种做法可以保持某些规模化上的灵活性。</p>
+</blockquote>
+<h2 id="EndPoints"><a href="#EndPoints" class="headerlink" title="EndPoints"></a>EndPoints</h2>端点就是指向特定资源或资源集合的 URL。在端点的设计中，必须 遵守下列约定：</li>
+<li>URL 的命名全部小写</li>
+<li>URL 中资源（resource）的命名是名词复数形式</li>
+<li>优先使用Restful类型的URL</li>
+<li>URL必须是易读的</li>
+<li>URL不可暴露服务器架构</li>
+</ul>
+<p><strong>Example</strong></p>
+<ul>
+<li><a href="https://api.example.com/zoos" target="_blank" rel="noopener">https://api.example.com/zoos</a></li>
+<li><a href="https://api.example.com/animals" target="_blank" rel="noopener">https://api.example.com/animals</a></li>
+<li><a href="https://api.example.com/zoos/{zoo}/animals" target="_blank" rel="noopener">https://api.example.com/zoos/{zoo}/animals</a><h2 id="HTTP动词"><a href="#HTTP动词" class="headerlink" title="HTTP动词"></a>HTTP动词</h2>对于资源的具体操作类型，由 HTTP 动词表示。常用的 HTTP 动词有下面五个（括号里是对应的 SQL 命令）。</li>
+<li>GET（SELECT）：从服务器取出资源（一项或多项）。</li>
+<li>POST（CREATE）：在服务器新建一个资源。</li>
+<li>PUT（UPDATE）：在服务器更新资源（客户端提供改变后的完整资源）。</li>
+<li>PATCH（UPDATE）：在服务器更新资源（客户端提供改变的属性）。</li>
+<li>DELETE（DELETE）：从服务器删除资源。<h2 id="Response"><a href="#Response" class="headerlink" title="Response"></a>Response</h2>只有来自客户端的请求被正确的处理后才能返回 2xx 的响应，所以当 API返回 2xx 类型的状态码时，前端认定该请求已处理成功。<br>常见返回错误消息的方法：</li>
+<li>将错误信息放入HTTP响应首部</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">X-MYNAME-ERROR-CODE: 4001</span><br><span class="line">X-MYNAME-ERROR-MESSAGE: Bad authentication token</span><br><span class="line">X-MYNAME-ERROR-INFO: http://docs.example.com/api/v1/authentication</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>直接放入响应实体中</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 401 Unauthorized</span><br><span class="line">Server: nginx/1.11.9</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Cache-Control: no-cache, private</span><br><span class="line">Date: Sun, 24 Jun 2018 10:02:59 GMT</span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">&#123;<span class="string">"error_code"</span>:40100,<span class="string">"message"</span>:<span class="string">"Unauthorized"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="200-ok"><a href="#200-ok" class="headerlink" title="200 ok"></a>200 ok</h3><p>200 状态码是最常见的 HTTP 状态码，在所有成功的 GET 请求中，返回此状态码。HTTP 响应实体部分就是数据</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"id"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">"username"</span>: <span class="string">"godruoyi"</span>,</span><br><span class="line">    <span class="string">"age"</span>: <span class="number">88</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="201-Created"><a href="#201-Created" class="headerlink" title="201 Created"></a>201 Created</h3><p>当服务器创建数据成功时，返回此状态码。常见的应用场景是使用 POST 提交用户信息，如：</p>
+<ul>
+<li>添加了新用户</li>
+<li>上传了图片</li>
+<li>创建了新活动<br>等，都可以返回 201 状态码。可以选择在用户创建成功后返回新用户的数据<h3 id="202-Accepted"><a href="#202-Accepted" class="headerlink" title="202 Accepted"></a>202 Accepted</h3>该状态码表示服务器已经接受到了来自客户端的请求，但还未开始处理。常用短信发送、邮件通知、模板消息推送等这类很耗时需要队列支持的场景中；<br>返回该状态码时，响应实体为空。<h3 id="204-No-Content"><a href="#204-No-Content" class="headerlink" title="204 No Content"></a>204 No Content</h3>该状态码表示响应实体不包含任何数据，其中：</li>
+<li>在使用 DELETE 方法删除资源成功时，返回该状态码</li>
+<li>使用 PUT、PATCH 方法更新数据成功时,返回此状态码<h3 id="400-Bad-Request"><a href="#400-Bad-Request" class="headerlink" title="400 Bad Request"></a>400 Bad Request</h3>由于明显的客户端错误（例如，请求语法格式错误、无效的请求、无效的签名等），服务器应该放弃该请求。<br>当服务器无法从其他 4xx 类型的状态码中找出合适的来表示错误类型时,返回该状态码。<h3 id="401-Unauthorized"><a href="#401-Unauthorized" class="headerlink" title="401 Unauthorized"></a>401 Unauthorized</h3>该状态码表示当前请求需要身份认证，例如</li>
+<li>未认证用户访问需要认证的 API</li>
+<li>access_token 无效/过期<br>客户端在收到 401 响应后，提示用户进行下一步的登录操作。<h3 id="403-Forbidden"><a href="#403-Forbidden" class="headerlink" title="403 Forbidden"></a>403 Forbidden</h3>该状态码可以简单的理解为没有权限访问该请求，服务器收到请求但拒绝提供服务。<br>如当普通用户请求操作管理员用户时，返回该状态码。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 403 Forbidden</span><br><span class="line">Server: nginx/1.11.9</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Cache-Control: no-cache, private</span><br><span class="line">Date: Sun, 24 Jun 2018 13:05:34 GMT</span><br><span class="line">Connection: keep-alive</span><br><span class="line">&#123;<span class="string">"error_code"</span>:40301,<span class="string">"message"</span>:<span class="string">"权限不足"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="404-Not-Found"><a href="#404-Not-Found" class="headerlink" title="404 Not Found"></a>404 Not Found</h3><p>该状态码表示用户请求的资源不存在</p>
+<ul>
+<li>获取不存在的用户信息 (get /users/9999999）</li>
+<li>访问不存在的端点<h3 id="408-Request-Timeout"><a href="#408-Request-Timeout" class="headerlink" title="408 Request Timeout"></a>408 Request Timeout</h3>客户端请求超时时返回该状态码，需要注意的时，该状态码表示客户端请求超时，而不是在涉及第三方 API 调用超时时</li>
+</ul>
+<h3 id="429-Too-Many-Requests"><a href="#429-Too-Many-Requests" class="headerlink" title="429 Too Many Requests"></a>429 Too Many Requests</h3><p>该状态码表示用户请求次数超过允许范围。如 API设定为 60次/分钟，当用户在一分钟内请求次数超过 60 次后回该状态码。并且在响应首部中加上下列头部：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X-RateLimit-Limit: 10 请求速率（由应用设定，其单位一般为小时/分钟等，这里是 10次/5分钟）  </span><br><span class="line">X-RateLimit-Remaining: 0 当前剩余的请求数量</span><br><span class="line">X-RateLimit-Reset: 1529839462 重置时间</span><br><span class="line">Retry-After: 120 下一次访问应该等待的时间（秒）</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.1</span> <span class="number">429</span> Too Many Requests</span><br><span class="line">Server: nginx/<span class="number">1.11</span><span class="number">.9</span></span><br><span class="line">Content-Type: application/json</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">X-RateLimit-Limit: <span class="number">10</span></span><br><span class="line">X-RateLimit-Remaining: <span class="number">0</span></span><br><span class="line">X-RateLimit-Reset: <span class="number">1529839462</span></span><br><span class="line">Retry-After: <span class="number">290</span></span><br><span class="line">Cache-Control: no-cache, private</span><br><span class="line"><span class="built_in">Date</span>: Sun, <span class="number">24</span> Jun <span class="number">2018</span> <span class="number">11</span>:<span class="number">19</span>:<span class="number">32</span> GMT</span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">&#123;<span class="string">"message"</span>:<span class="string">"You have exceeded your rate limit."</span>,<span class="string">"error_code"</span>:<span class="number">42900</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2011/09/restful.html" target="_blank" rel="noopener">理解Restful架构</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2014/05/restful_api.html" target="_blank" rel="noopener">Restful API设计指南</a></li>
+<li><a href="https://developer.github.com/v3/" target="_blank" rel="noopener">Github API v3概述</a></li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(/images/footer_1.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>没有更新的文章</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(/images/footer_2.jpg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/11/20/博客网站REST-API设计/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>博客网站REST API设计</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">ZZ blog</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.blleng.cn" target="_blank">Lx</a><br>
+  </div>
+</footer>
+</div>
+
+<button class="menu-trigger"></button>
+<div class="menu">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/person_1.jpg" alt="Rica Zhang"></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Rica Zhang</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>首页</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>页面</span>
+        <ul>
+          <li><a href="/guestbook">留言</a></li>
+        <li><a href="/about">关于</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>友链</span>
+        <ul>
+          <li> <a href="https://lx.blleng.cn" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
